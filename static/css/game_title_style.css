@@ -1,15 +1,49 @@
 /* game_title_style.css (game_title.html) : 게임 타이틀 화면의 스타일 결정*/
+html,
+body {
+    height: 100%;
+    overflow: hidden; /* 스크롤바 숨기기 */
+}
+
 body {
     background-image: url("../images/title/title.png");
     background-size: cover;
     background-color: #1a1a2e; /* 어두운 게임 배경 */
     color: #e0e0e0;
     font-family: 'Arial', sans-serif;
-    justify-content: center;
-    align-items: center;
-    height: 100%; /* iframe 높이에 맞춰짐 */
+    min-height: 100vh; /* 뷰포트 높이만큼 최소 높이 설정 */
     margin: 0;
-    overflow: hidden;
+    animation: backgroundPan 30s linear infinite alternate; /* 배경 애니메이션 적용 */
+}
+
+/* 애니메이션 */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideIn {
+    from { transform: translateY(50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes backgroundPan {
+    0% { background-position: 0% 0%; }
+    100% { background-position: 100% 100%; }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.03); }
+    100% { transform: scale(1); }
+}
+
+.fade-in {
+    animation: fadeIn 1s ease-out forwards;
+}
+
+.slide-in {
+    animation: slideIn 0.8s ease-out forwards;
 }
 
 /* 게임 타이틀 화면 컨테이너 */
@@ -19,7 +53,15 @@ body {
     align-items: center;
     flex-direction: column;
     display: flex;
+    /* 추가: 초기에는 보이지 않도록 설정 */
+    opacity: 0;
+    animation: fadeIn 1s ease-out forwards;
     
+    /* 화면 중앙 정렬 */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 /* 타이틀 이미지 스타일 */
@@ -32,16 +74,26 @@ body {
 /* 게임 타이틀 텍스트 이미지 스타일 */
 #title-text-img {
     justify-self: center;
-    margin-top:100px;
+    margin-top: 10vh; /* 픽셀 대신 뷰포트 높이 사용 */
+    animation: pulse 2s infinite alternate; /* 맥동 애니메이션 적용 */
 }
 #title-text-img img {
     border:none;
+    transition: transform 0.3s ease-in-out; /* 부드러운 전환 효과 */
+    max-width: 90%; /* 최대 너비 설정 */
+    height: auto; /* 높이 자동 조정 */
+}
+
+/* 타이틀 텍스트 이미지에 마우스를 올렸을 때 효과 */
+#title-text-img img:hover {
+    transform: translateY(-5px) scale(1.02); /* 살짝 위로 이동하고 확대 */
+    cursor: pointer; /* 마우스 커서를 포인터로 변경 */
 }
 
 
 /* 불러오기 버튼 컨테이너 */
 .load-game {
-    margin-top: 100px;
+    margin-top: 10vh; /* 픽셀 대신 뷰포트 높이 사용 */
     width: 100%;
     display: flex;
     justify-content: center;
@@ -54,7 +106,7 @@ body {
     border: 2px solid #4a4a80;
     margin : 20px;
     padding: 15px 40px;
-    font-size: 1.2rem;
+    font-size: clamp(1rem, 2.5vw, 1.5rem); /* 반응형 글꼴 크기 */
     font-weight: bold;
     cursor: pointer;
     border-radius: 50px;
@@ -66,5 +118,12 @@ body {
 /* 버튼에 마우스를 올렸을 때 효과 */
 .load-game button:hover {
     background-color: #4a4a80;
-    transform: translateY(-3px);
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* 버튼에 클릭 효과 */
+.load-game button:active {
+    transform: translateY(0) scale(0.98);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
 }
