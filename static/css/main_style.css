@@ -1,2 +1,9 @@
 /* main_style.css 게임 내에 공통으로 들어갈 요소들의 스타일 결정 ex. 스토리대사, 선택버튼 등 */
 
+.interaction-box {
+    width: 100%;
+    height: 30% ;
+    border-radius: 10px;
+    border: 2px solid #4a4a80;
+    background-color: #272740;
+}

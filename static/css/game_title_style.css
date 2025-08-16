@@ -22,13 +22,6 @@ body {
     
 }
 
-/* 타이틀 이미지 스타일 */
-.game-title img {
-    height: auto;
-    border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-}
-
 /* 게임 타이틀 텍스트 이미지 스타일 */
 #title-text-img {
     justify-self: center;
@@ -41,7 +34,7 @@ body {
 
 /* 불러오기 버튼 컨테이너 */
 .load-game {
-    margin-top: 100px;
+    margin-top: 60px;
     width: 100%;
     display: flex;
     justify-content: center;
