@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>컴공이지만 연애는 하고싶어 연애시뮬레이션</title>
+
+    <!--CSS 불러오기 코드-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/game_title_style.css') }}">
+</head>
+</head>
+
+<body>
+    <!--메인화면-->
+    <div class="game-title">
+        <div class="load-game">
+            <button id="load-game-btn new" onclick="">새로 시작하기</button>
+        </div>
+         <div class="load-game">
+            <button id="load-game-btn saved" onclick="">게임 불러오기</button>
+        </div>
+    </div>
+
+    <!--JS 불러오기 코드-->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+
+</html>

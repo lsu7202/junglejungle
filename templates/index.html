@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>컴공이지만 연애는 하고싶어 연애시뮬레이션</title>
+
+    <!--CSS 불러오기 코드-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index_style.css') }}">
+</head>
+</head>
+
+<body>
+    <!---웹 껍데기-->
+    <div class="main-container">
+        <div class="title-text">
+            <img src="" alt="컴공이지만연애는하고싶어">
+        </div>
+
+        <!--로그인기능 필요시 구현-->
+        <div class="login">
+        </div>
+
+        <!--게임 불러오기-->
+        <!--{{ url_for('game') }} 로 해야 flask에서 인식-->
+        <div class="game-container">
+            <iframe src="{{ url_for('game') }}" width="1600" height="900" frameborder="0"></iframe>
+        </div>
+
+    </div>
+
+    <!--JS 불러오기 코드-->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+
+</html>
