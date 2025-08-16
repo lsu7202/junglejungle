@@ -1,4 +1,4 @@
-/* game.html의 전체 페이지 스타일 */
+/* game_title_style.html : 게임 타이틀 화면의 스타일 결정*/
 body {
     background-image: url("../images/title/title.png");
     background-size: cover;
@@ -26,14 +26,14 @@ body {
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 }
 
-/* 버튼 컨테이너 */
+/* 불러오기 버튼 컨테이너 */
 .load-game {
     width: 100%;
     display: flex;
     justify-content: center;
 }
 
-/* 버튼 스타일 */
+/* 불러오기 버튼 스타일 */
 .load-game button {
     background-color: #272740;
     color: #fff;
