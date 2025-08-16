@@ -12,3 +12,30 @@ function load_game_new(cut_id) {
 
     console.log(`'cut${cut_id}.html'을 iframe에 로드했습니다.`);
 }
+
+// 플레이어 이름 받아서 db에 저장
+function save_playerName() {
+    let name = $('#playerName').val();
+    $.ajax({
+        type: 'POST',
+        url: '/game',
+        data: { playerName: name },
+        success: function (response) {
+        },
+        error: function (xhr, status, error) {
+            console.error("서버 전송 오류:", error);
+        }
+    });
+}
+
+// 플레이어 이름 불러오기
+function load_playerName() {
+    $.ajax({
+        type: 'GET',
+        url: '/game',
+        success: function (response) {
+            let playerName = response['playerName'];
+            }
+        }
+    );
+}
