@@ -63,6 +63,7 @@ function load_playerName() {
 function save_comment() {
 
     let comment = $('#comment-input').val();
+    let comment_date = getCurrentDateTimeStr();
     if (!comment) {
         alert("댓글을 입력하세요!");
         return;
@@ -71,9 +72,10 @@ function save_comment() {
     $.ajax({
         type: 'POST',
         url: '/game/ending/comment',
-        data: { playerComment: comment },
+        data: { playerComment: comment, Date : comment_date },
         success: function (response) {
             alert('댓글을 남겼습니다.');
+            $('#comment-input').val('');
             show_comment();
         },
         error: function (xhr, status, error) {
@@ -91,19 +93,32 @@ function show_comment() {
         success: function (response) {
             console.log("잘되고있음");
             let comments = response['playerComment'];
+            let dates = response['Date'];
 
             // 코멘트 영역 초기화
             $('#comment-list').empty();
 
-            for (let i = 0; i < comments.length; i++) {
+            for (let i = comments.length-1; i >= 0; i--) {
                 let comment = comments[i].playerComment;
-                $('#comment-list').append(`${comment}<br>`);
+                let date = comments[i].Date;
+                $('#comment-list').append(`${comment} ${date}<br>`);
             }
         },
         error: function () {
             console.log("빠꾸해");
         }
     });
+}
+
+// 현재 시간 저장하는 함수(댓글과 함께 사용) ex.2025-08-17 14:35
+function getCurrentDateTimeStr() {
+    const now = new Date();
+    const dateStr = now.getFullYear() + '-' +
+                    String(now.getMonth() + 1).padStart(2, '0') + '-' +
+                    String(now.getDate()).padStart(2, '0');
+    const timeStr = String(now.getHours()).padStart(2, '0') + ':' +
+                    String(now.getMinutes()).padStart(2, '0');
+    return `${dateStr} ${timeStr}`;
 }
 
 $(document).ready(function() {

@@ -46,15 +46,16 @@ def load_playerName():
 def post_comment():
     if request.method == 'POST':
         receive_comment = request.form.get('playerComment')
-        add_comment = {'playerComment': receive_comment}  # +유저 정보 추가
-        db.playerComment.insert_one(add_comment)
+        receive_date = request.form.get('Date')
+        comment_data = {'playerComment': receive_comment, 'Date': receive_date}  # +유저 정보 추가
+        db.playerComment.insert_one(comment_data)
         return jsonify({'result': 'success'})
 
 # comment 불러오기
 @app.route('/game/ending/comment', methods=['GET'])
 def load_comment():
     result = list(db.playerComment.find({}, {'_id': 0}))
-    return jsonify({'result': 'success', 'playerComment': result})
+    return jsonify({'result': 'success', 'playerComment': result, 'Date': result})
 
 if __name__ == '__main__':
 
