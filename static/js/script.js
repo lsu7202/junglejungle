@@ -89,7 +89,7 @@ function show_comment() {
         url: '/game/ending/comment',
         dataType: "json",
         success: function (response) {
-            console.log("hello");
+            console.log("잘되고있음");
             let comments = response['playerComment'];
 
             // 코멘트 영역 초기화
