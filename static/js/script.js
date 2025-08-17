@@ -11,4 +11,16 @@ function load_game_new(cut_id) {
     gameIframe.src = `/game/${cut_id}`;
 
     console.log(`'cut${cut_id}.html'을 iframe에 로드했습니다.`);
+
+    
 }
+
+// function goToPage(pageNumber) {
+//   if (pageNumber === 1) {
+//     // 1번 페이지로 이동
+//     window.location.href = 'cut2.html';
+//   } else if (pageNumber === 2) {
+//     // 2번 페이지로 이동
+//     window.location.href = 'cut3.html';
+//   }
+// }

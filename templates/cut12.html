@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>컴공이지만 연애는 하고싶어 연애시뮬레이션</title>
+
+    <style>
+        body {
+            background-image: url("../static/images/img_ed/최종합본/8-1.png");
+        }
+    </style>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main_style.css') }}">
+</head>
+
+<body>
+    <div class="interaction-box">
+        <div class="line">강지수:너 취향 참 독특하다..(이런남자 처음이야)</div>
+        <div class="choice-box">
+            <div class="choice-btn-area">
+            </div>
+            <div class="continue-btn-area">
+                <button class="continue-btn" onclick="load_game_new(13_1)">결정</button>
+                <small class="regret-notice">후회불가능</small>
+            </div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+
+</html>
