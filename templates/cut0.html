@@ -20,16 +20,30 @@
 </head>
 
 <body>
-    <!--상호작용 박스-->
-    <div class="character-box">
-    </div>
-    <div class="interaction-box">
-        <div class="line"></div>
-        <div class="choice"></div>
-    </div>
+    <!-- jquery 불러오기 코드 -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <!--JS 불러오기 코드-->
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    
+        <!--상호작용 박스-->
+    <div class="interaction-box">
+        <div class="line">강지수 : 안녕~ 너의 이름이 뭐니?
+            <div class="input-area">
+                <input type="text" id="playerName" placeholder="여기에 이름 입력">
+            </div>
+        </div>
+        <div class="choice-box">
+            <div class="choice-btn-area"></div>
+            <div class="continue-btn-area">
+                <button class="continue-btn" onclick="save_playerName()">결정</button>
+
+
+                <small class="regret-notice">후회불가능</small>
+            </div>
+        </div>
+    </div>
+    </div>
 </body>
 
 </html>
