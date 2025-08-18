@@ -47,6 +47,20 @@ def save_playerData():
     db.playerData.insert_one(playerData)
     return jsonify({'result': 'success', 'message': '회원가입 완료!'})
 
+# 로그인
+@app.route('/api/login', methods=['POST'])
+def login_player():
+    receive_ID = request.form.get('playerID')
+    receive_Password = request.form.get('playerPassword')
+    
+    # DB에 입력한 ID와 비밀번호 있는지
+    user = db.playerData.find_one({'playerID': receive_ID, 'playerPassword': receive_Password})
+    
+    if user:
+        return jsonify({'result': 'success'})
+    else:
+        return jsonify({'result': 'fail'})
+
 # commnet 저장
 @app.route('/api/postcomment', methods=['POST'])
 def save_comment():

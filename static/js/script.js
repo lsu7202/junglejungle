@@ -101,6 +101,32 @@ function save_playerData() {
     });
 }
 
+// 로그인
+function load_playerData() {
+    let ID = $('#playerID_login').val();
+    let password = $('#password_login').val();
+
+    if (!ID || !password) {
+        alert("아이디와 비밀번호를 입력해주세요!");
+        return;
+    }
+    $.ajax({
+        type: 'POST',
+        url: '/api/login',
+        data: { playerID: ID, playerPassword: password },
+        success: function(response) {
+            if (response.result === 'success') {
+                load_game_new(100);
+            } else {
+                alert("아이디 또는 비밀번호가 올바르지 않습니다.");
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error("서버 전송 오류:", error);
+        }
+    });
+}
+
 // 플레이어 이름 받아서 db에 저장
 function save_playerName() {
     let name = $('#playerName').val();
