@@ -1,0 +1,47 @@
+<!--cut0.html : 0 컷-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>컴공이지만 연애는 하고싶어 연애시뮬레이션</title>
+
+    <!-- jquery 불러오기 코드 -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+
+    <!--CSS 불러오기 코드-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/game_ending_style.css') }}">
+</head>
+
+<body>
+    <!-- 타이틀 이미지 -->
+    <div class="title">
+        <img src="../static/images/title/title_text.png" alt="컴공이지만 연애는 하고싶어">
+    </div>
+
+    <!-- 엔딩 텍스트 -->
+    <div class="ending-text">BAD ENDING</div>
+
+    <!-- 게임 결과 -->
+    <div class="result">
+    </div>
+
+    <!-- 댓글창 -->
+    <div class="comment-section">
+        <h2>댓글</h2>
+        <textarea id="comment-input" placeholder="댓글을 입력하세요"></textarea><br>
+        <button onclick="save_comment()">댓글 남기기</button>
+
+        <div class="comment-list" id="comment-list">
+            <!-- 댓글 목록이 여기에 표시됨 -->
+        </div>
+    </div>
+
+    <!--JS 불러오기 코드-->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+</html>
+
+</html>
