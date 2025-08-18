@@ -29,7 +29,7 @@ def game_ending():
 
 # playername 받아서 저장
 @app.route('/game', methods=['POST'])
-def post_playerName():
+def save_playerName():
     receive_playerName = request.form.get('playerName')
     playerName = {'playerName': receive_playerName} 
     db.playerName.insert_one(playerName)
@@ -43,7 +43,7 @@ def load_playerName():
 
 # commnet 저장
 @app.route('/game/ending/comment', methods=['POST'])
-def post_comment():
+def save_comment():
     if request.method == 'POST':
         receive_comment = request.form.get('playerComment')
         receive_date = request.form.get('Date')
