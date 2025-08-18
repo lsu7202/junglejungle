@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>컴공이지만 연애는 하고싶어 연애시뮬레이션</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <style>
         body {
@@ -25,7 +26,7 @@
         <div class="line">강지수:아 정말?그럼 저기 농구장까지 달리기 시합이야~출발!!</div>
         <div class="choice-box">
             <div class="choice-btn-area">
-                <button class="choice-btn" onclick="load_game_new(17)">달리기</button>
+                <button class="choice-btn" data-next-cut="17" data-current-cut="16" data-choice-text="아 정말?그럼 저기 농구장까지 달리기 시합이야~출발!! : 달리기">달리기</button>
                 <!-- <button class="choice-btn" onclick="load_game_new(7)">네 제가 꺼내 드릴께요</button> -->
             </div>
             <!-- <div class="continue-btn-area">

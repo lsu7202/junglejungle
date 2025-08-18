@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>컴공이지만 연애는 하고싶어 연애시뮬레이션</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <style>
         body {
@@ -25,8 +26,8 @@
         <div class="line">커피가 묻은 옷을 세탁하십시오.</div> 
         <div class="choice-box">
             <div class="choice-btn-area">
-                <button class="choice-btn" onclick="load_game_new(22)">섬유유연제도 넣는다.</button>
-                <button class="choice-btn" onclick="load_game_new(23)">세제만 넣는다.</button>
+                <button class="choice-btn" data-next-cut="22" data-current-cut="21" data-choice-text="커피가 묻은 옷을 세탁하십시오. : 섬유유연제도 넣는다.">섬유유연제도 넣는다.</button>
+                <button class="choice-btn" data-next-cut="23" data-current-cut="21" data-choice-text="커피가 묻은 옷을 세탁하십시오. :세제만 넣는다.">세제만 넣는다.</button>
             </div>
             <div class="continue-btn-area">
                 <small class="regret-notice">후회불가능</small>

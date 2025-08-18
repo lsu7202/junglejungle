@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>컴공이지만 연애는 하고싶어 연애시뮬레이션</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <style>
         body {
@@ -25,8 +26,8 @@
         <div class="line">강지수:...,근데 나좀 도와 줄 수 있어...?!</div>
         <div class="choice-box">
             <div class="choice-btn-area">
-                <button class="choice-btn" onclick="load_game_new(7)">예</button>
-                 <button class="choice-btn" onclick="load_game_new(8)">아니요</button>
+                <button class="choice-btn" data-current-cut="6" data-next-cut="7" data-choice-text="근데 나좀 도와 줄 수 있어...?! : 예">예</button>
+                <button class="choice-btn" data-current-cut="6" data-next-cut="8" data-choice-text="근데 나좀 도와 줄 수 있어...?! : 아니요">아니요</button>
 
             </div>
         <!-- <div class="choice-box">

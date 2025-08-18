@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>컴공이지만 연애는 하고싶어 연애시뮬레이션</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <style>
         body {
@@ -25,8 +26,8 @@
         <div class="line">선배에 대한 사과 메시지입니다.</div> 
         <div class="choice-box">
             <div class="choice-btn-area">
-                <button class="choice-btn" onclick="load_game_new(31)">보내기</button>
-                <button class="choice-btn" onclick="load_game_new(32)">보내지 않기</button>
+                <button class="choice-btn" data-next-cut="31" data-current-cut="30" data-choice-text="선배에 대한 사과 메시지입니다. : 보내기">보내기</button>
+                <button class="choice-btn" data-next-cut="32" data-current-cut="30" data-choice-text="선배에 대한 사과 메시지입니다. : 보내지 않기">보내지 않기</button>
             </div>
             <div class="continue-btn-area">
                 <small class="regret-notice">후회불가능</small>

@@ -11,16 +11,45 @@ function load_game_new(cut_id) {
     gameIframe.src = `/game/${cut_id}`;
 
     console.log(`'cut${cut_id}.html'을 iframe에 로드했습니다.`);
-
-    
 }
 
-// function goToPage(pageNumber) {
-//   if (pageNumber === 1) {
-//     // 1번 페이지로 이동
-//     window.location.href = 'cut2.html';
-//   } else if (pageNumber === 2) {
-//     // 2번 페이지로 이동
-//     window.location.href = 'cut3.html';
-//   }
-// }
+function save_choice(cut_id, playerID, choice_text) {
+    $.ajax({
+        type : "POST",
+        url : "/api/choices",
+        data : {
+            'playerID' : playerID,
+            'cut_id' : cut_id,
+            'choice_text' : choice_text
+        },
+        success : function(response) {
+            if(response['result'] === 'success') {
+                console.log('POST choice')
+            }
+        }
+    })
+}
+
+
+
+
+// 이벤트리스너 부분 ----------------------------------------------------
+
+// 선택지 저장 버튼을 정의합니다!
+const choiceButtons = document.getElementsByClassName('choice-btn');
+
+for (const button of choiceButtons) {
+    button.addEventListener('click', function() {
+
+        const playerID = 'USER1'; 
+        const currentCut = this.dataset.currentCut;
+        const nextCut = this.dataset.nextCut;
+        const choiceText = this.dataset.choiceText;
+
+        console.log(`선택: ${choiceText}, 다음 컷: ${nextCut}`);
+
+        save_choice(currentCut, playerID, choiceText);
+
+        load_game_new(nextCut);
+    });
+}
