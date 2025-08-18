@@ -17,6 +17,11 @@ def index():
 def game_login():
     return render_template('login.html')
 
+# '/game/signup' URL에 대한 라우트를 정의합니다.
+@app.route('/signup')
+def game_signup():
+    return render_template('signup.html')
+
 # '/game/컷번호' URL에 대한 라우트를 정의합니다. cut_id : 0~
 @app.route('/game/<int:cut_id>')
 def game_cut(cut_id):
@@ -26,6 +31,21 @@ def game_cut(cut_id):
 @app.route('/game/ending')
 def game_ending():
     return render_template('game_ending.html')
+
+# playerData(유저ID/유저PW) 받아서 저장
+@app.route('/api/playerdata', methods=['POST'])
+def save_playerData():
+    receive_playerID = request.form.get('playerID')
+    receive_Password = request.form.get('playerPassword')
+
+    # DB에 이미 같은 ID가 있는지 확인
+    if db.playerData.find_one({'playerID': receive_playerID}):
+        return jsonify({'result': 'fail', 'message': '이미 존재하는 아이디입니다.'})
+    
+    # 중복 없으면 저장
+    playerData = {'playerID': receive_playerID, 'playerPassword': receive_Password } 
+    db.playerData.insert_one(playerData)
+    return jsonify({'result': 'success', 'message': '회원가입 완료!'})
 
 # commnet 저장
 @app.route('/api/postcomment', methods=['POST'])
