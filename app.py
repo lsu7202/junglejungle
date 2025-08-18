@@ -12,10 +12,10 @@ db = client.junglejungle
 def index():
     return render_template('index.html')
 
-# '/game/title' URL에 대한 라우트를 정의합니다.
-@app.route('/game/title')
-def game_title():
-    return render_template('game_title.html')
+
+@app.route('/login')
+def game_login():
+    return render_template('login.html')
 
 # '/game/컷번호' URL에 대한 라우트를 정의합니다. cut_id : 0~
 @app.route('/game/<int:cut_id>')
