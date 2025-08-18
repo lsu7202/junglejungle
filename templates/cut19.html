@@ -1,0 +1,41 @@
+<!--cut0.html : 2 컷-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>컴공이지만 연애는 하고싶어 연애시뮬레이션</title>
+
+    <style>
+        body {
+            background-image: url("../static/images/img_ed/최종합본/r.png");
+        }
+    </style>
+
+    <!--CSS 불러오기 코드-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main_style.css') }}">
+</head>
+
+</head>
+
+<body>
+    <!--상호작용 박스-->
+    <div class="interaction-box">
+        <!-- <div class="line">강지수:그래 앞으로 잘 부탁해~</div>
+        <div class="line">주인공:저는 운동이 취미에여.저기 농구 골대까지 달리기 시합 하실래요?</div> -->
+        <div class="line">강지수:그래, 이따 자기 전까지 우리 집으로 가져다 줘!!</div> 
+        <div class="choice-box">
+            <div class="choice-btn-area">
+                <button class="choice-btn" onclick="load_game_new(20)">네, 죄송합니다.</button>
+            </div>
+            <div class="continue-btn-area">
+                <small class="regret-notice">후회불가능</small>
+            </div>
+        </div>
+    </div>
+        <!--JS 불러오기 코드-->
+        <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+
+</html>
