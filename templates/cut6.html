@@ -6,10 +6,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>컴공이지만 연애는 하고싶어 연애시뮬레이션</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <style>
         body {
-            background-image: url("../static/images/img_ed/최종합본/cut4-1.png");
+            background-image: url("../static/images/img_ed/최종합본/e.png");
         }
     </style>
 
@@ -22,14 +23,22 @@
 <body>
     <!--상호작용 박스-->
     <div class="interaction-box">
-        <div class="line">강지수:뭐야..남자가 이것도 못해? 실망이야...기계공학과 00이는 내 부탁 들어주는데</div>
+        <div class="line">강지수:...,근데 나좀 도와 줄 수 있어...?!</div>
         <div class="choice-box">
             <div class="choice-btn-area">
+                <button class="choice-btn" data-current-cut="6" data-next-cut="7" data-choice-text="근데 나좀 도와 줄 수 있어...?! : 예">예</button>
+                <button class="choice-btn" data-current-cut="6" data-next-cut="8" data-choice-text="근데 나좀 도와 줄 수 있어...?! : 아니요">아니요</button>
+
             </div>
-            <div class="continue-btn-area">
-                <button class="continue-btn" onclick="load_game_new(10)" >결정</button>
-                <small class="regret-notice">후회불가능</small>
+        <!-- <div class="choice-box">
+            <div class="choice-btn-area">
+
             </div>
+            < <div class="continue-btn-area">
+                <button class="continue-btn" onclick="load_game_new(7)" >예</button>
+                <button class="continue-btn" onclick="load_game_new(8)">아니요</button> -->
+                <!-- <small class="regret-notice">후회불가능</small> -->
+            </div> 
         </div>
     </div>
 

@@ -6,10 +6,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>컴공이지만 연애는 하고싶어 연애시뮬레이션</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <style>
         body {
-            background-image: url("../static/images/img_ed/최종합본/9.png");
+            background-image: url("../static/images/img_ed/최종합본/o.png");
         }
     </style>
 
@@ -24,13 +25,14 @@
     <div class="interaction-box">
         <!-- <div class="line">강지수:그래 앞으로 잘 부탁해~</div>
         <div class="line">주인공:저는 운동이 취미에여.저기 농구 골대까지 달리기 시합 하실래요?</div> -->
-        <div class="line">강지수:그래!얼마나 빠른지 보자!나한테 지면 기대해</div> 
+        <div class="line">강지수:너는 취미가 뭐야?</div> 
         <div class="choice-box">
             <div class="choice-btn-area">
+                 <button class="choice-btn" data-next-cut="16" data-current-cut="15" data-choice-text="너는 취미가 뭐야? : 저는 코딩.. 아 아니 러닝이 취미에요">저는 코딩..아 아니 러닝이 취미에요</button>
             </div>
             <div class="continue-btn-area">
-                <button class="continue-btn" onclick="load_game_new(10)">결정</button>
-                <small class="regret-notice">후회불가능</small>
+                <!-- <button class="continue-btn" onclick="load_game_new(16)">저는 코딩..아 아니 러닝이 취미에요</button> -->
+                <!-- <small class="regret-notice">후회불가능</small> -->
             </div>
         </div>
     </div>

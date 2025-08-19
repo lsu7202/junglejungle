@@ -37,18 +37,7 @@ def game_cut(cut_id):
 def game_ending():
     return render_template('game_ending.html')
 
-#------------------------- DB 구조 ----------------------------------------------------------#
-'''
-choices : POST 플레이어의 선택을 저장합니다 / GET 플레이어의 선택을 조회합니다.
-choice_0 , choice_1 같은 형식으로 POST
-{playerID : str, choice_{num} : str}
-
-saved_data : POST 유저의 게임 데이터를 저장합니다 / GET 유저의 게임 데이터를 불러옵니다.
-{playerID : str, username : str, cut_id : int} 
-
-playerComment : POST 플레이어의 후기를 저장합니다 / GET 플레이어들의 후기를 조회합니다.
-{playerComment : str, Date : str}
-'''
+#------------------------- DB API 정의 코드 ----------------------------------------------------------#
 
 # playerData(유저ID/유저PW) 받아서 저장
 @app.route('/api/playerdata', methods=['POST'])
@@ -111,7 +100,7 @@ def save_choice():
         # upsert=True 옵션은 playerID에 해당하는 document가 없을 경우 새로 생성해줍니다.
         db.choices.update_one(
             {'playerID': receive_playerID},
-            {'$set': {f'choices.choice_{receive_id}': choice_text}},
+            {'$set': {f'choices.{receive_id}': choice_text}},
             upsert=True
         )
         
@@ -134,6 +123,37 @@ def get_choices():
         else:
             # 데이터가 없는 경우
             return jsonify({'result': 'success', 'choices': {}})
+        
+@app.route('/api/playerData/username', methods=['POST'])
+def save_username():
+    # 1. 클라이언트로부터 데이터 받기
+    receive_playerID = request.form.get('playerID')
+    receive_username = request.form.get('username')
+
+    # 2. 필수 데이터가 모두 있는지 확인
+    if not receive_playerID or not receive_username:
+        return jsonify({'result': 'error', 'msg': 'playerID와 username은 필수입니다.'}), 400
+
+    try:
+        # 3. playerID를 사용해 DB에서 플레이어 정보 조회
+        user = db.playerData.find_one({'playerID': receive_playerID})
+        
+        # 4. 플레이어가 존재하는 경우, username 필드를 업데이트
+        if user:
+            # db.컬렉션.update_one({검색 조건}, {"$set": {업데이트할 내용}})
+            db.playerData.update_one(
+                {'playerID': receive_playerID},
+                {'$set': {'username': receive_username}}
+            )
+            return jsonify({'result': 'success', 'msg': '사용자 이름이 저장되었습니다.'})
+        else:
+            # 5. 플레이어가 존재하지 않는 경우
+            return jsonify({'result': 'error', 'msg': '해당 플레이어를 찾을 수 없습니다.'}), 404
+
+    except Exception as e:
+        # 6. DB 작업 중 예외 발생 시 처리
+        return jsonify({'result': 'error', 'msg': f'서버 오류: {e}'}), 500
+
 
 
 if __name__ == '__main__':

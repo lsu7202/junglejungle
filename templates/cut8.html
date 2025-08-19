@@ -1,3 +1,4 @@
+<!--cut0.html : 2 컷-->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,29 +6,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>컴공이지만 연애는 하고싶어 연애시뮬레이션</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <style>
         body {
-            background-image: url("../static/images/img_ed/최종합본/11.png");
+            background-image: url("../static/images/img_ed/최종합본/g.png");
         }
     </style>
 
+    <!--CSS 불러오기 코드-->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main_style.css') }}">
 </head>
 
+</head>
+
 <body>
+    <!--상호작용 박스-->
     <div class="interaction-box">
-        <div class="line">강지수:카페로 이동</div>
+        <div class="line">(............)</div>
         <div class="choice-box">
             <div class="choice-btn-area">
+                 <button class="continue-btn" onclick="load_game_new(9)">(....ㅎㅎ)</button>
             </div>
             <div class="continue-btn-area">
-                <button class="continue-btn" onclick="load_game_new(9)">결정</button>
-                <small class="regret-notice">후회불가능</small>
+                <!-- <button class="continue-btn" onclick="load_game_new(14)">네 감사합니다.</button> -->
+                <!-- <small class="regret-notice">후회불가능</small> -->
             </div>
         </div>
     </div>
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+    <!-- <div class="choice-box">
+        <div class="choice-btn-area"></div>
+        <div class="continue-btn-area">
+            <button class="continue-btn" onclick="load_game_new(4)">결정</button>
+            <small class="regret-notice">후회불가능</small>
+        </div> -->
+        <!--JS 불러오기 코드-->
+        <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 
 </html>

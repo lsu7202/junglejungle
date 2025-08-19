@@ -5,11 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>컴공이지만 연애는 하고싶어 연애시뮬레이션</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <style>
         body {
             /* 'url_for'를 사용하여 올바른 이미지 경로를 생성합니다. */
-            background-image: url("../static/images/img_ed/최종합본/cut0.png");
+            background-image: url("../static/images/img_ed/최종합본/a.png");
         }
     </style>
 
@@ -22,7 +23,7 @@
     <div class="interaction-box">
         <div class="text-area">
            
-            <div class="line">강지수 : 안녕~ 너의 이름이 뭐니?</div>
+            <div class="line">강지수 : 안녕,신입생이야?! 이름이 뭐니?</div>
             <div class="input-area">
                 <input type="text" id="playerName" placeholder="여기에 이름 입력">
             </div>
@@ -31,7 +32,7 @@
         <div class="choice-box">
             <div class="choice-btn-area"></div>
             <div class="continue-btn-area">
-                <button class="continue-btn" onclick="load_game_new(1)">결정</button>
+                <button class="select-btn" onclick="load_game_new(1)">결정</button>
                 <small class="regret-notice">후회불가능</small>
         </div>
            
@@ -41,25 +42,6 @@
     </div>
 
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
-    
-        <!--상호작용 박스-->
-    <div class="interaction-box">
-        <div class="line">강지수 : 안녕~ 너의 이름이 뭐니?
-            <div class="input-area">
-                <input type="text" id="playerName" placeholder="여기에 이름 입력">
-            </div>
-        </div>
-        <div class="choice-box">
-            <div class="choice-btn-area"></div>
-            <div class="continue-btn-area">
-                <button class="continue-btn" onclick="save_playerName()">결정</button>
-
-
-                <small class="regret-notice">후회불가능</small>
-            </div>
-        </div>
-    </div>
-    </div>
 </body>
 
 </html>

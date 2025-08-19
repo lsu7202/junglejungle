@@ -1,4 +1,3 @@
-<!--cut0.html : 0 컷-->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,41 +6,190 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>컴공이지만 연애는 하고싶어 연애시뮬레이션</title>
 
-    <!-- jquery 불러오기 코드 -->
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 
-    <!--CSS 불러오기 코드-->
+    <script>
+        $(document).ready(function () {
+            get_choices('USER1', function (choices) {
+                // 1. 객체를 [키, 값] 쌍의 배열로 변환
+                const entries = Object.entries(choices);
+
+                // 2. 숫자 키를 기준으로 오름차순 정렬
+                entries.sort(([aKey], [bKey]) => {
+                    return Number(aKey) - Number(bKey);
+                });
+
+                let your_sequences = `<h4>당신의 선택들</h4>`
+
+                // 3. 정렬된 'entries' 배열을 직접 순회
+                entries.forEach(([key, value]) => {
+                    if (value != null) {
+                        your_sequences += `<div class="choice-sequence-text">${value}</div>`;
+                    }
+                });
+
+                let Developers_html = 
+                `
+                    <h4>만든 사람들</h4>
+                    <h5>크래프톤 정글 2팀 : 이승욱, 이수빈, 천현준</h5>
+                    <h5>Google Gemini</h5>
+                `
+
+                const ending_credits_html = your_sequences + Developers_html;
+
+                $('.ending-credits').html(ending_credits_html)
+            });
+        });
+    </script>
+
     <link rel="stylesheet" href="{{ url_for('static', filename='css/game_ending_style.css') }}">
+
+    <style>
+    body {
+        background-color: #000;
+        color: #fff;
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+
+    .theater-view {
+        text-align: center;
+        position: relative;
+        width: 80%;
+        max-width: 800px;
+        overflow: hidden;
+    }
+
+    .screen-container {
+        position: relative;
+        padding-bottom: 56.25%;
+        /* 16:9 Aspect Ratio */
+        background: #333;
+        border: 5px solid #222;
+        box-shadow: 0 0 50px rgba(255, 255, 255, 0.1);
+        overflow: hidden;
+    }
+    
+    /* [수정] 스크롤 애니메이션을 위해 스타일 변경 */
+    .ending-credits {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        /* justify-content: center; -> 애니메이션을 위해 제거 */
+        /* align-items: center; -> 애니메이션을 위해 제거 */
+        text-align: center; /* 텍스트 중앙 정렬 */
+        padding: 20px;
+        box-sizing: border-box;
+
+        /* [추가] 엔딩 크레딧 스크롤 애니메이션 */
+        animation: scrollCredits 20s linear 2s infinite;
+    }
+
+    /* [추가] 엔딩 크레딧 스크롤 애니메이션 키프레임 */
+    @keyframes scrollCredits {
+        0% {
+            transform: translateY(100%); /* 화면 아래 밖에서 시작 */
+        }
+        100% {
+            transform: translateY(-100%); /* 화면 위 밖으로 사라짐 */
+        }
+    }
+
+
+    .choice-sequence-text {
+        margin : 5px;
+    }
+
+    .review-box {
+        background: #111;
+        padding: 20px;
+        margin-top: 30px;
+        border: 2px solid #333;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    }
+
+    .review-box h2 {
+        margin-top: 0;
+        font-size: 1.5rem;
+    }
+
+    .review-box textarea {
+        width: 100%;
+        background: #000;
+        color: #fff;
+        border: 1px solid #555;
+        padding: 10px;
+        font-size: 1rem;
+        resize: none;
+        box-sizing: border-box;
+    }
+    
+    .theater-view::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(circle, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.8) 70%, rgba(0, 0, 0, 1) 100%);
+        z-index: -1;
+        pointer-events: none;
+    }
+
+    .screen-container::before {
+        content: '';
+        position: absolute;
+        top: -10px;
+        left: -10px;
+        right: -10px;
+        bottom: -10px;
+        border: 10px solid #222;
+        z-index: -1;
+    }
+
+    .submit-button {
+        background-color: #131111;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .submit-button:hover {
+        background-color: #3a3636;
+    }
+</style>
 </head>
 
 <body>
-    <!-- 타이틀 이미지 -->
-    <div class="title">
-        <img src="../static/images/title/title_text.png" alt="컴공이지만 연애는 하고싶어">
-    </div>
-
-    <!-- 엔딩 텍스트 -->
-    <div class="ending-text">BAD ENDING</div>
-
-    <!-- 게임 결과 -->
-    <div class="result">
-    </div>
-
-    <!-- 댓글창 -->
-    <div class="comment-section">
-        <h2>댓글</h2>
-        <textarea id="comment-input" placeholder="댓글을 입력하세요"></textarea><br>
-        <button onclick="save_comment()">댓글 남기기</button>
-
-        <div class="comment-list" id="comment-list">
-            <!-- 댓글 목록이 여기에 표시됨 -->
+    <div class="theater-view">
+        <div class="screen-container">
+            <div class="ending-credits"></div>
+            
         </div>
+        <div class="review-box">
+            <h2></h2>
+            <textarea placeholder="Share your experience with us." rows="5"></textarea>
+            <button class="submit-button">register</button>
+        </div>
+
+        <!--여기에 모든 사용자의 리뷰를 불러와주세요-->
+        <div class="whole-review-container"></div>
     </div>
 
-    <!--JS 불러오기 코드-->
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
-
 </body>
-</html>
 
 </html>
