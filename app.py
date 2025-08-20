@@ -1,7 +1,8 @@
 from flask import Flask, render_template, jsonify, request, url_for
-from flask_cors import CORS  # CORS 처리를 위해 임포트합니다.
+from flask_cors import CORS
 from pymongo import MongoClient
-import certifi # MongoDB Atlas의 TLS 인증서 처리를 위해 임포트합니다.
+import certifi
+from bson.objectid import ObjectId # 고유 ID 처리를 위해 import
 
 app = Flask(__name__)
 
@@ -11,8 +12,7 @@ uri = "mongodb+srv://admin:vlxjvos1080@cluster0.xdzsy0j.mongodb.net/?retryWrites
 client = MongoClient(uri, tlsCAFile=ca)
 db = client.junglejungle
 
-# 루트 URL('/')에 대한 라우트를 정의합니다.
-# 사용자가 웹사이트의 메인 페이지에 접속할 때 이 함수가 실행됩니다.
+# --- (기존 코드는 변경 없음) ---
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -22,45 +22,63 @@ def index():
 def game_login():
     return render_template('login.html')
 
-# '/game/signup' URL에 대한 라우트를 정의합니다.
 @app.route('/signup')
 def game_signup():
     return render_template('signup.html')
 
-# '/game/컷번호' URL에 대한 라우트를 정의합니다. cut_id : 0~
 @app.route('/game/<int:cut_id>')
 def game_cut(cut_id):
     return render_template(f'cut{cut_id}.html')
 
-# '/game/ending' URL에 대한 라우트를 정의합니다.
 @app.route('/game/ending')
 def game_ending():
     return render_template('game_ending.html')
 
 #------------------------- DB API 정의 코드 ----------------------------------------------------------#
 
-# playerData(유저ID/유저PW) 받아서 저장
 @app.route('/api/playerdata', methods=['POST'])
 def save_playerData():
     receive_playerID = request.form.get('playerID')
     receive_Password = request.form.get('playerPassword')
 
-    # DB에 이미 같은 ID가 있는지 확인
     if db.playerData.find_one({'playerID': receive_playerID}):
         return jsonify({'result': 'fail', 'message': '이미 존재하는 아이디입니다.'})
     
-    # 중복 없으면 저장
     playerData = {'playerID': receive_playerID, 'playerPassword': receive_Password } 
     db.playerData.insert_one(playerData)
     return jsonify({'result': 'success', 'message': '회원가입 완료!'})
 
-# 로그인
+@app.route('/api/playerName', methods=['POST'])
+def set_playername():
+    playerID = request.form.get('playerID')
+    playerName = request.form.get('playerName')
+    if not playerName:
+        return jsonify({"success": False, "message": "이름을 입력해주세요."})
+
+    db.playerData.update_one(
+        {"playerID": playerID},
+        {"$set": {"playerName": playerName}}
+    )
+
+    return jsonify({"success": True})
+
+@app.route('/api/playerName', methods=['GET'])
+def get_playername():
+    playerID = request.args.get('playerID')
+    if not playerID:
+        return jsonify({"success" : False, "message":"불러올 이름이 없습니다"})
+    
+    result = db.playerData.find_one({'playerID':playerID}, {'playerName': 1, '_id': 0})
+    if result:
+        return jsonify({
+            'success':True, 'playerName' : result['playerName']
+        })
+
 @app.route('/api/login', methods=['POST'])
 def login_player():
     receive_ID = request.form.get('playerID')
     receive_Password = request.form.get('playerPassword')
     
-    # DB에 입력한 ID와 비밀번호 있는지
     user = db.playerData.find_one({'playerID': receive_ID, 'playerPassword': receive_Password})
     
     if user:
@@ -68,27 +86,50 @@ def login_player():
     else:
         return jsonify({'result': 'fail'})
 
-# commnet 저장
-@app.route('/api/postcomment', methods=['POST'])
-def save_comment():
+@app.route('/api/postreview', methods=['POST'])
+def save_review():
     if request.method == 'POST':
-        receive_comment = request.form.get('playerComment')
+        receive_playerID = request.form.get('playerID')
+        receive_username = request.form.get('playerName')
+        receive_comment = request.form.get('playerReview')
         receive_date = request.form.get('Date')
-        comment_data = {'playerComment': receive_comment, 'Date': receive_date}  # +유저 정보 추가
+        comment_data = {'playerID':receive_playerID, 'playerName':receive_username, 'playerReview': receive_comment, 'Date': receive_date}
         db.playerComment.insert_one(comment_data)
         return jsonify({'result': 'success'})
 
-# comment 불러오기
-@app.route('/api/loadcomment', methods=['GET'])
-def load_comment():
-    result = list(db.playerComment.find({}, {'_id': 0}))
-    return jsonify({'result': 'success', 'playerComment': result, 'Date': result})
+# [수정됨] review 불러오기: 각 후기 데이터에 고유 '_id'를 문자열로 변환하여 추가
+@app.route('/api/loadreview', methods=['GET'])
+def load_review():
+    reviews = list(db.playerComment.find({}))
+    for review in reviews:
+        review['_id'] = str(review['_id'])
+    return jsonify({'result': 'success', 'playerReview': reviews})
 
+# [수정됨] 답글 달기: playerID 대신 고유 'review_id'를 받아 처리
+@app.route('/api/reply', methods=['POST'])
+def reply():
+    if request.method == 'POST':
+        review_id = request.form.get('review_id')
+        replier_playerName = request.form.get('playerName')
+        replyText = request.form.get('replyText')
 
+        if not all([review_id, replier_playerName, replyText]):
+            return jsonify({'result': 'fail', 'message': '필수 정보가 누락되었습니다.'})
 
-# ------------------------------------------------ update -----------------------#
-# playerID 별로 저장된 choice는 choice_id 로 저장됩니다. 여기서 id는 cut_id의 id와 똑같이 해주세요.
+        try:
+            result = db.playerComment.update_one(
+                {'_id': ObjectId(review_id)},
+                {'$push': {'replies': {'playerName': replier_playerName, 'replyText': replyText}}}
+            )
 
+            if result.modified_count > 0:
+                return jsonify({'result': 'success'})
+            else:
+                return jsonify({'result': 'fail', 'message': '해당 후기를 찾을 수 없습니다.'})
+        except Exception as e:
+            return jsonify({'result': 'fail', 'message': f'오류 발생: {e}'})
+
+# --- (이하 코드는 변경 없음) ---
 @app.route('/api/choices', methods=['POST'])
 def save_choice():
     if request.method == 'POST':
@@ -96,8 +137,6 @@ def save_choice():
         receive_id = request.form.get('cut_id')
         choice_text = request.form.get('choice_text')
         
-        # playerID로 기존 document를 찾아서 choices 필드를 업데이트합니다.
-        # upsert=True 옵션은 playerID에 해당하는 document가 없을 경우 새로 생성해줍니다.
         db.choices.update_one(
             {'playerID': receive_playerID},
             {'$set': {f'choices.{receive_id}': choice_text}},
@@ -106,55 +145,35 @@ def save_choice():
         
         return jsonify({'result': 'success'})
 
-# 'playerID'로 저장된 선택지 목록 전체를 가져오기
 @app.route('/api/choices', methods=['GET'])  
 def get_choices():
     if request.method == 'GET':
-        # GET 요청에서는 request.args를 사용하는 것이 일반적입니다.
         receive_playerID = request.args.get('playerID') 
         
-        # find_one으로 playerID에 해당하는 하나의 document를 찾습니다.
         player_data = db.choices.find_one({'playerID': receive_playerID})
         
         if player_data and 'choices' in player_data:
-            # document가 존재하고 'choices' 필드가 있으면 해당 객체를 반환합니다.
             choices_list = player_data['choices']
             return jsonify({'result': 'success', 'choices': choices_list})
         else:
-            # 데이터가 없는 경우
             return jsonify({'result': 'success', 'choices': {}})
         
-@app.route('/api/playerData/username', methods=['POST'])
-def save_username():
-    # 1. 클라이언트로부터 데이터 받기
-    receive_playerID = request.form.get('playerID')
-    receive_username = request.form.get('username')
+@app.route('/api/get_last_cut', methods=['GET'])
+def get_last_cut():
+    playerID = request.args.get('playerID')
+    player_data = db.choices.find_one({'playerID': playerID})
+    if player_data and 'choices' in player_data:
+        choices = player_data['choices']
+        if not choices:
+            return jsonify({'result': 'fail', 'message': '선택 기록이 없습니다.'})
 
-    # 2. 필수 데이터가 모두 있는지 확인
-    if not receive_playerID or not receive_username:
-        return jsonify({'result': 'error', 'msg': 'playerID와 username은 필수입니다.'}), 400
+        cut_ids = sorted(choices.keys(), key=int)
+        last_cut_id = sorted(choices.keys(), key=int)[-1]
 
-    try:
-        # 3. playerID를 사용해 DB에서 플레이어 정보 조회
-        user = db.playerData.find_one({'playerID': receive_playerID})
+        return jsonify({'result': 'success', 'last_cut_id': last_cut_id, 'sorted_cutID': cut_ids})
+    else:
+        return jsonify({'result': 'fail', 'message': '선택 기록이 없습니다.'})
         
-        # 4. 플레이어가 존재하는 경우, username 필드를 업데이트
-        if user:
-            # db.컬렉션.update_one({검색 조건}, {"$set": {업데이트할 내용}})
-            db.playerData.update_one(
-                {'playerID': receive_playerID},
-                {'$set': {'username': receive_username}}
-            )
-            return jsonify({'result': 'success', 'msg': '사용자 이름이 저장되었습니다.'})
-        else:
-            # 5. 플레이어가 존재하지 않는 경우
-            return jsonify({'result': 'error', 'msg': '해당 플레이어를 찾을 수 없습니다.'}), 404
-
-    except Exception as e:
-        # 6. DB 작업 중 예외 발생 시 처리
-        return jsonify({'result': 'error', 'msg': f'서버 오류: {e}'}), 500
-
-
 
 if __name__ == '__main__':
 

@@ -8,6 +8,17 @@
     <title>컴공이지만 연애는 하고싶어 연애시뮬레이션</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
+    <script>
+        $(document).ready(function () {
+            username = load_usernameInSession()
+            console.log(username)
+    $('#username_line').html(
+        `
+        <div class="line">강지수 :아~너가 ${username}이구나</div>
+        `
+    )
+});
+    </script>
 
     <style>
         body {
@@ -25,11 +36,7 @@
 <body>
     <!--상호작용 박스-->
     <div class="interaction-box">
-        <div class="line">강지수 :아~너가 땡떙이구나</div>
-
-
-
-
+        <div class="line" id="username_line"></div>
         <div class="choice-box">
             <div class="choice-btn-area">
                 <button class="choice-btn" data-next-cut="2" data-current-cut="1" data-choice-text="강지수 :아~너가 땡떙이구나 : 네.잘부탁드려요">네.잘부탁드려요</button>

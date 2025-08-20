@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게임 후기</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS animations for fading in and box movement */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #000;
+        }
+        .message-box {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 1rem 2rem;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .message-box.show {
+            opacity: 1;
+        }
+        
+        /* Custom styles for a dark, cinematic feel */
+        .review-box {
+            background-color: #111;
+            border: 2px solid #333;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease; /* Add transition for a smooth hover/click effect */
+            position: relative; /* For positioning the toggle button */
+        }
+        .review-box:hover {
+            transform: translateY(-5px); /* Lift the box on hover */
+        }
+        .review-box.active {
+            transform: translateY(-10px) scale(1.02); /* More pronounced effect on click */
+        }
+
+        .submit-button {
+            background-color: #2a2a2a;
+            transition: background-color 0.3s ease;
+        }
+        .submit-button:hover {
+            background-color: #444444;
+        }
+        .reply-toggle-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #2a2a2a;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+            z-index: 10;
+        }
+        .reply-toggle-btn:hover {
+            background-color: #444444;
+        }
+    </style>
+</head>
+<body class="bg-black text-white flex flex-col items-center justify-center min-h-screen p-4">
+
+    <!-- Message box for notifications -->
+    <div id="message-box" class="message-box"></div>
+    
+    <!-- Title section -->
+    <div class="w-full max-w-4xl text-center mb-6">
+        <h1 class="text-3xl font-bold text-gray-100">게임 후기</h1>
+    </div>
+
+    <!-- Container for multiple review boxes, this will be populated dynamically -->
+    <div id="reviews-container" class="w-full max-w-4xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Review boxes will be added here by JavaScript -->
+    </div>
+    
+    <script>
+        // Global variables
+        const messageBox = document.getElementById('message-box');
+        const reviewsContainer = document.getElementById('reviews-container');
+        
+        // Sample data as if it were coming from a database
+        const reviewsData = [
+            { user: '1', review: '후기' },
+            { user: '2', review: '후기'},
+            { user: '3', review: '후기' },
+            { user: '4', review: '후기' },
+            { user: '5', review: '후기' },
+        ];
+
+        // Function to display messages
+        function showMessage(message, type = 'success') {
+            messageBox.textContent = message;
+            messageBox.style.display = 'block';
+            if (type === 'success') {
+                messageBox.style.backgroundColor = '#4CAF50';
+            } else {
+                messageBox.style.backgroundColor = '#F44336';
+            }
+            messageBox.classList.add('show');
+
+            setTimeout(() => {
+                messageBox.classList.remove('show');
+                setTimeout(() => {
+                    messageBox.style.display = 'none';
+                }, 500);
+            }, 2000);
+        }
+
+        // Function to render a new reply
+        function renderReply(replyText, repliesContainer) {
+            const replyDiv = document.createElement('div');
+            replyDiv.className = 'flex items-start space-x-3 p-3 rounded-lg review-box animate-fadeIn';
+            
+            replyDiv.innerHTML = `
+                <div class="flex-shrink-0">
+                    <img class="h-8 w-8 rounded-full" src="https://placehold.co/32x32/3498DB/FFFFFF?text=B" alt="Avatar">
+                </div>
+                <div class="flex-1 min-w-0">
+                    <div class="font-semibold text-gray-100 text-sm">당신</div>
+                    <p class="text-gray-300 mt-1 break-words text-xs">${replyText}</p>
+                    <p class="text-xs text-gray-500 mt-1">${new Date().toLocaleString()}</p>
+                </div>
+            `;
+            repliesContainer.appendChild(replyDiv);
+        }
+
+        // Handle reply submission using event delegation
+        function handleSubmitReply(event) {
+            const button = event.target;
+            const replySection = button.closest('.reply-section');
+            if (replySection) {
+                const replyInput = replySection.querySelector('textarea');
+                const repliesContainer = replySection.closest('.review-box').querySelector('.replies-container');
+                
+                const replyText = replyInput.value.trim();
+                if (replyText) {
+                    renderReply(replyText, repliesContainer);
+                    replyInput.value = '';
+                    showMessage('답글이 성공적으로 등록되었습니다.');
+                } else {
+                    showMessage('답글 내용을 입력해주세요.', 'error');
+                }
+            }
+        }
+        
+        // Function to render all review boxes from the data
+        function renderReviewBoxes() {
+            reviewsData.forEach(data => {
+                const reviewBoxHtml = `
+                    <div class="review-box rounded-xl p-4 space-y-4 cursor-pointer">
+                        <button class="reply-toggle-btn">
+                            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                            </svg>
+                        </button>
+                        <div class="flex items-start space-x-4">
+                            <div class="flex-shrink-0">
+                                <img class="h-10 w-10 rounded-full" src="https://placehold.co/40x40/FF5733/FFFFFF?text=${data.user[0].toUpperCase()}" alt="Avatar">
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="font-semibold text-gray-100">${data.user}</div>
+                                <p class="text-gray-300 mt-1 break-words text-sm">${data.review}</p>
+                            </div>
+                        </div>
+                        <div class="replies-container space-y-2"></div>
+                        <div class="reply-section space-y-2 hidden animate-fadeIn">
+                            <textarea class="w-full h-16 p-2 border border-gray-700 bg-black text-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-200 placeholder-gray-400 text-sm" placeholder="답글을 작성하세요..."></textarea>
+                            <button class="submit-button text-white font-semibold py-1 px-4 rounded-lg shadow-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 w-full text-sm">등록</button>
+                        </div>
+                    </div>
+                `;
+                reviewsContainer.insertAdjacentHTML('beforeend', reviewBoxHtml);
+            });
+        }
+        
+        // Event delegation for dynamically created elements
+        reviewsContainer.addEventListener('click', (event) => {
+            const reviewBox = event.target.closest('.review-box');
+            const replyButton = event.target.closest('.reply-toggle-btn');
+            
+            if (replyButton) {
+                // If the user clicks the toggle button, find the parent review box
+                const box = replyButton.closest('.review-box');
+                const replySection = box.querySelector('.reply-section');
+                
+                // Toggle the reply section for this specific box
+                replySection.classList.toggle('hidden');
+                box.classList.toggle('active'); // Add active class for visual effect
+                
+                // Set focus if visible
+                if (!replySection.classList.contains('hidden')) {
+                    replySection.querySelector('textarea').focus();
+                }
+
+                // Change the button icon
+                const iconPath = replyButton.querySelector('path');
+                if (replySection.classList.contains('hidden')) {
+                    iconPath.setAttribute('d', 'M12 4v16m8-8H4'); // + icon
+                } else {
+                    iconPath.setAttribute('d', 'M20 12H4'); // - icon
+                }
+            } else if (reviewBox && !event.target.closest('.reply-section')) {
+                // If the user clicks the box but not the reply section, do nothing to prevent double-toggling
+                return;
+            }
+        });
+
+        // Event listener for dynamically created submit buttons
+        reviewsContainer.addEventListener('click', (event) => {
+            if (event.target.classList.contains('submit-button')) {
+                handleSubmitReply(event);
+            }
+        });
+
+        // Event listener for dynamically created textareas
+        reviewsContainer.addEventListener('keypress', (event) => {
+            if (event.target.tagName.toLowerCase() === 'textarea' && event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                const repliesContainer = event.target.closest('.review-box').querySelector('.replies-container');
+                const replyText = event.target.value.trim();
+                if (replyText) {
+                    renderReply(replyText, repliesContainer);
+                    event.target.value = '';
+                    showMessage('답글이 성공적으로 등록되었습니다.');
+                } else {
+                    showMessage('답글 내용을 입력해주세요.', 'error');
+                }
+            }
+        });
+
+        // Initial render on page load
+        window.onload = renderReviewBoxes;
+    </script>
+
+</body>
+</html>

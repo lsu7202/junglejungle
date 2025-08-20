@@ -13,7 +13,9 @@
         /* game_title_style.css (game_title.html) : 게임 타이틀 화면의 스타일 결정*/
         body {
             background-image: url("../static/images/title/title.png");
-            background-size: cover;
+
+            /* 배경 이미지가 화면보다 크게 설정되어 흐르는 효과를 낼 수 있게 합니다. */
+            background-size: 120%;
             background-color: #1a1a2e;
             /* 어두운 게임 배경 */
             color: #e0e0e0;
@@ -24,6 +26,20 @@
             /* iframe 높이에 맞춰짐 */
             margin: 0;
             overflow: hidden;
+
+            /* 배경 애니메이션 추가: 60초로 더 느리게, 세로로 흐르게 변경 */
+            animation: background-flow 60s linear infinite alternate;
+        }
+
+        /* 배경을 천천히 움직이게 하는 애니메이션 */
+        @keyframes background-flow {
+            from {
+                background-position: 0 0;
+            }
+            to {
+                /* X축은 그대로 두고 Y축만 100%로 변경하여 세로로 흐르게 함 */
+                background-position: 0 100%;
+            }
         }
 
         /* 게임 타이틀 화면 컨테이너 */
@@ -33,17 +49,39 @@
             align-items: center;
             flex-direction: column;
             display: flex;
-
         }
 
         /* 게임 타이틀 텍스트 이미지 스타일 */
         #title-text-img {
             justify-self: center;
             margin-top: 100px;
+            /* 심장이 두근거리는(pulse) 애니메이션을 1.5초 동안 무한 반복합니다. */
+            animation: pulse 1.5s infinite ease-in-out;
+        }
+
+        /* 마우스를 올렸을 때 애니메이션을 일시 정지시킵니다. */
+        #title-text-img:hover {
+            animation-play-state: paused;
         }
 
         #title-text-img img {
             border: none;
+        }
+
+        /* @keyframes는 '두근거림' 동작을 정의합니다. */
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            /* 시작 크기 */
+            50% {
+                transform: scale(1.05);
+            }
+            /* 5% 커짐 */
+            100% {
+                transform: scale(1);
+            }
+            /* 다시 원래 크기로 돌아옴 */
         }
 
 
@@ -85,14 +123,41 @@
     <div class="game-title">
         <div id="title-text-img"><img src="../static/images/title/title_text.png" alt="컴공이지만연애는하고싶어 타이틀 텍스트"></div>
         <div class="load-game">
-            <button id="load-game-btn new" onclick="load_game_new(0)">새로 시작하기</button>
-            <button id="load-game-btn saved">게임 불러오기</button>
+            <button id="load-game-btn new" onclick="playSoundAndExecute(() => load_game_new(0))">새로 시작하기</button>
+            <button id="load-game-btn saved" onclick="load_saved_game()">게임 불러오기</button>
             <button onclick="load_ending_page()">엔딩</button> <!--엔딩 페이지 확인용 임시 버튼(나중에 지움)-->
         </div>
     </div>
 
     <!--JS 불러오기 코드-->
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+    <audio id="click-sound" src="{{ url_for('static', filename='images/img_ed/최종합본/마우스효과음.mp3') }}" preload="auto"></audio>
+
+    <script>
+        // ## 추가된 함수 ##
+
+        // 1. 버튼 클릭 효과음을 재생하는 공통 함수
+        function playClickSound() {
+            const clickSound = document.getElementById('click-sound');
+            if (clickSound) {
+                clickSound.currentTime = 0; // 소리를 처음부터 다시 재생
+                clickSound.play().catch(error => console.error("효과음 재생 오류:", error));
+            }
+        }
+
+        // 2. 소리를 먼저 재생한 후, 원래 함수를 실행하는 만능 핸들러 함수
+        function playSoundAndExecute(originalFunction) {
+            playClickSound(); // 먼저 소리를 재생
+            
+            // 0.2초 후에 원래 실행하려던 함수를 실행
+            setTimeout(() => {
+                if (typeof originalFunction === 'function') {
+                    originalFunction();
+                }
+            }, 200);
+        }
+    </script>
 </body>
 
 </html>
