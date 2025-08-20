@@ -24,32 +24,16 @@
     <!--상호작용 박스-->
     <div class="interaction-box">
         <div class="line">내가 보고싶은 책이 너무 높이 있어..저것좀 꺼내줄래?</div>
-        <!-- <div class="choice-btn-area">
-                <button class="choice-btn" onclick="load_game_new(7)">예</button>
-                 <button class="choice-btn" onclick="load_game_new(8)">아니요</button>
-
-            </div> -->
         
         <div class="choice-box">
             <div class="choice-btn-area">
-                <button class="choice-btn" data-current-cut="7" data-next-cut="9" data-choice-text="내가 보고싶은 책이 너무 높이 있어..저것좀 꺼내줄래? : 네 제가 꺼내 드릴게요">네 제가 꺼내 드릴게요</button>
-                <button class="choice-btn" data-current-cut="7" data-next-cut="10" data-choice-text="내가 보고싶은 책이 너무 높이 있어..저것좀 꺼내줄래? : 저기 사다리 쓰세요">저기 사다리 쓰세요</button>
+                <button class="choice-btn" data-current-cut="7" data-next-cut="10" data-choice-text="내가 보고싶은 책이 너무 높이 있어..저것좀 꺼내줄래? : 네 제가 꺼내 드릴게요">네 제가 꺼내 드릴게요</button>
+                <button class="choice-btn" data-current-cut="7" data-next-cut="9" data-choice-text="내가 보고싶은 책이 너무 높이 있어..저것좀 꺼내줄래? : 저기 사다리 쓰세요">저기 사다리 쓰세요</button>
             </div>
-            <!-- <div class="continue-btn-area">
-                <button class="continue-btn" onclick="load_game_new(10)">저기 사다리 쓰세요</button>
-                <button class="continue-btn" onclick="load_game_new(9)">네 제가 꺼내 드릴게요</button>
-            </div> -->
         </div>
     </div>
-
-    <!-- <div class="choice-box">
-        <div class="choice-btn-area"></div>
-        <div class="continue-btn-area">
-            <button class="continue-btn" onclick="load_game_new(4)">결정</button>
-            <small class="regret-notice">후회불가능</small>
-        </div> -->
-        <!--JS 불러오기 코드-->
         <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+        <audio id="click-sound" src="{{ url_for('static', filename='images/img_ed/최종합본/마우스효과음.mp3') }}" preload="auto"></audio>
 </body>
 
 </html>

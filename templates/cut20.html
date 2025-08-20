@@ -28,15 +28,15 @@
         <div class="line">집으로 가는 중...</div> 
         <div class="choice-box">
             <div class="choice-btn-area">
-                <button class="continue-btn" onclick="load_game_new(21)">다음 이야기로</button>
+                <button class="continue-btn" onclick="playSoundAndExecute(() => load_game_new(21))">다음 이야기로</button>
             </div>
             <div class="continue-btn-area">
-                <small class="regret-notice">후회불가능</small>
             </div>
         </div>
     </div>
         <!--JS 불러오기 코드-->
         <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+        <audio id="click-sound" src="{{ url_for('static', filename='images/img_ed/최종합본/마우스효과음.mp3') }}" preload="auto"></audio>
 </body>
 
 </html>

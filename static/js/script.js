@@ -14,6 +14,39 @@ function load_game_new(cut_id) {
     console.log(`'cut${cut_id}.html'을 iframe에 로드했습니다.`);
 }
 
+async function load_game_zero(cut_id=0) {
+
+    const gameIframe = parent.document.getElementById('game-container');
+
+    // 만약 iframe 요소를 찾지 못했다면 콘솔에 오류 메시지를 출력합니다.
+    if (!gameIframe) {
+        console.error("오류: 'game-container' ID를 가진 iframe 요소를 찾을 수 없습니다.");
+        return; // 함수 실행 중단
+    }
+
+    gameIframe.src = `/game/${cut_id}`;
+
+    console.log(`'cut${cut_id}.html'을 iframe에 로드했습니다.`);
+
+    await clear_choices()
+}
+
+function clear_choices() {
+    playerID = load_playerIdInSession()
+    $.ajax({
+        type:'POST',
+        url: "/api/choices/clear",
+        data: {
+            'playerID': playerID,
+        },
+        success : function (response) {
+            if (response['result'] === 'success'){
+                console.log('clear choices')
+            }
+        }
+    })
+}
+
 // 엔딩 페이지로 이동
 function load_ending_page() {
 
@@ -30,18 +63,23 @@ function load_ending_page() {
 
 // 선택지 저장 버튼을 정의합니다! ----------------- 이벤트 리스너
 
-function save_choice(cut_id, playerID, choice_text) {
+// [수정] save_choice 함수에 콜백(callback) 인자를 추가합니다.
+function save_choice(cut_id, playerID, choice_text, callback) {
     $.ajax({
-        type : "POST",
-        url : "/api/choices",
-        data : {
-            'playerID' : playerID,
-            'cut_id' : cut_id,
-            'choice_text' : choice_text
+        type: "POST",
+        url: "/api/choices",
+        data: {
+            'playerID': playerID,
+            'cut_id': cut_id,
+            'choice_text': choice_text
         },
-        success : function(response) {
-            if(response['result'] === 'success') {
-                console.log('POST choice')
+        success: function (response) {
+            if (response['result'] === 'success') {
+                console.log('POST choice');
+                // [수정] 저장이 성공하면 콜백 함수를 실행합니다.
+                if (callback) {
+                    callback();
+                }
             }
         }
     })
@@ -50,18 +88,20 @@ function save_choice(cut_id, playerID, choice_text) {
 const choiceButtons = document.getElementsByClassName('choice-btn');
 
 for (const button of choiceButtons) {
-    button.addEventListener('click', function() {
-
-        const playerID = load_playerIdInSession(); 
+    button.addEventListener('click', function () {
+        const playerID = load_playerIdInSession();
         const currentCut = this.dataset.currentCut;
         const nextCut = this.dataset.nextCut;
         const choiceText = this.dataset.choiceText;
 
         console.log(`선택: ${choiceText}, 다음 컷: ${nextCut}`);
-
-        save_choice(currentCut, playerID, choiceText);
-
-        load_game_new(nextCut);
+        
+        // [수정] save_choice가 완료된 후 load_game_new가 실행되도록 콜백으로 전달합니다.
+        playSoundAndExecute(() => {
+            save_choice(currentCut, playerID, choiceText, () => {
+                load_game_new(nextCut);
+            });
+        });
     });
 }
 
@@ -69,12 +109,14 @@ for (const button of choiceButtons) {
 const selectButton = $('.select-btn');
 
 for (const button of selectButton) {
-    button.addEventListener('click', function() {
+    button.addEventListener('click', function () {
         const nextCut = this.dataset.nextCut;
-        
-        // save_playerName이 성공하면 load_game_new를 실행하도록 콜백으로 전달
-        save_playerName(function() {
-            load_game_new(nextCut);
+
+        playSoundAndExecute(() => {
+            // save_playerName이 성공하면 load_game_new를 실행하도록 콜백으로 전달
+            save_playerName(function () {
+                load_game_new(nextCut);
+            });
         });
     });
 }
@@ -130,13 +172,13 @@ function save_playerData() {
         alert("아이디와 비밀번호를 입력해주세요!");
         return;
     }
-    
+
     $.ajax({
         type: 'POST',
         url: '/api/playerdata',
         data: { playerID: ID, playerPassword: password },
         success: function (response) {
-            if(response.result === 'fail'){
+            if (response.result === 'fail') {
                 alert(response.message); // 이미 존재하는 ID입니다
             } else {
                 alert(response.message); // 회원가입 완료
@@ -162,7 +204,7 @@ function load_playerData() {
         type: 'POST',
         url: '/api/login',
         data: { playerID: ID, playerPassword: password },
-        success: function(response) {
+        success: function (response) {
             if (response.result === 'success') {
                 load_game_new(100);
                 set_playerIdInSession(ID)
@@ -170,7 +212,7 @@ function load_playerData() {
                 alert("아이디 또는 비밀번호가 올바르지 않습니다.");
             }
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
             console.error("서버 전송 오류:", error);
         }
     });
@@ -189,7 +231,7 @@ function save_playerName(callback) { // 성공 시 실행할 콜백 함수를 �
     $.ajax({
         type: 'POST',
         url: '/api/playerName',
-        data: { 'playerName': name, 'playerID':  playerID},
+        data: { 'playerName': name, 'playerID': playerID },
         success: function (response) {
             console.log(response);
             set_usernameInSession(name); // 세션 변수 설정
@@ -245,12 +287,12 @@ function save_review() {
     $.ajax({
         type: 'POST',
         url: '/api/postreview',
-        data: { playerReview: comment, Date: comment_date, playerID: playerID, playerName:playerName },
+        data: { playerReview: comment, Date: comment_date, playerID: playerID, playerName: playerName },
         success: function (response) {
             alert('작성완료.');
             $('#save-review-box').val('');
             show_review();
-            
+
         },
         error: function (xhr, status, error) {
             console.error("서버 전송 오류:", error);
@@ -268,7 +310,7 @@ function show_review() {
         dataType: "json",
         success: function (response) {
             let comments = response.playerReview;
-            
+
             $('.contents').empty();
 
             if (!comments || comments.length === 0) {
@@ -339,7 +381,7 @@ function toggle_replies(buttonElement) {
 
 function show_reply_input(buttonElement) {
     const replyInputContainer = $(buttonElement).closest('.comment-box').find('.reply-input-container');
-    
+
     if (replyInputContainer.children().length > 0) {
         replyInputContainer.empty();
         return;
@@ -360,7 +402,7 @@ function submit_reply(buttonElement) {
     const review_id = commentBox.data('review-id'); // << [수정] data 속성에서 고유 ID 가져오기
     const replyTextArea = commentBox.find('.reply-input-box textarea');
     const replyText = replyTextArea.val();
-    
+
     const replier_playerName = load_usernameInSession();
 
     if (!replyText) {
@@ -372,7 +414,7 @@ function submit_reply(buttonElement) {
         alert("답글을 작성하려면 로그인이 필요합니다.");
         return;
     }
-    
+
     $.ajax({
         type: 'POST',
         url: '/api/reply',
@@ -381,7 +423,7 @@ function submit_reply(buttonElement) {
             'playerName': replier_playerName,
             'replyText': replyText
         },
-        success: function(response) {
+        success: function (response) {
             if (response.result === 'success') {
                 const new_reply_html = `
                     <div class="single-reply">
@@ -389,12 +431,12 @@ function submit_reply(buttonElement) {
                         <div class="reply-text">${replyText}</div>
                     </div>
                 `;
-                
+
                 const repliesContainer = commentBox.find('.replies-container');
                 repliesContainer.append(new_reply_html);
-                
+
                 repliesContainer.slideDown();
-                
+
                 const viewRepliesBtn = commentBox.find('.view-replies-btn');
                 let newCount = (viewRepliesBtn.data('count') || 0) + 1;
                 viewRepliesBtn.data('count', newCount);
@@ -406,7 +448,7 @@ function submit_reply(buttonElement) {
                 alert(response.message || '답글 등록에 실패했습니다.');
             }
         },
-        error: function() {
+        error: function () {
             alert('서버와 통신 중 오류가 발생했습니다.');
         }
     });
@@ -425,7 +467,7 @@ function getCurrentDateTimeStr() {
 }
 // --- (이하 코드는 변경 없음) ---
 // ------------------------------------------------------------------------------------//
-$(document).ready(function () {});
+$(document).ready(function () { });
 
 
 function get_choices(playerID, callback) {
@@ -433,12 +475,12 @@ function get_choices(playerID, callback) {
         url: '/api/choices',
         type: 'GET',
         data: { playerID: playerID },
-        success: function(response) {
+        success: function (response) {
             if (response.result === 'success' && response.choices) {
                 callback(response.choices);
             }
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
             console.error("Failed to get choices:", status, error);
         }
     });
@@ -466,7 +508,7 @@ async function load_saved_game() {
             type: 'GET',
             data: { 'playerID': playerID }
         });
-        
+
         set_usernameInSession(nameResponse.playerName);
         console.log("가져온 Username:", load_usernameInSession());
 
@@ -480,7 +522,7 @@ async function load_saved_game() {
             const cut_id = cutResponse.last_cut_id;
             console.log("정렬된 컷 ID 목록:", cutResponse.sorted_cutID);
             console.log("마지막 컷 ID:", cut_id);
-            
+
             gameIframe.src = `/game/${cut_id}`;
         } else {
             alert(cutResponse.message);
@@ -491,3 +533,41 @@ async function load_saved_game() {
     }
 }
 //-----------------------------------------------------------------------------------------//
+
+
+// ------------------ 버튼 소리 코드 --------------------------------------------------------//
+// 1. 버튼 클릭 효과음을 재생하는 공통 함수
+function playClickSound(sound_id='click-sound') {
+    const clickSound = parent.document.getElementById(sound_id);
+    if (clickSound) {
+        clickSound.currentTime = 0; // 소리를 처음부터 다시 재생
+        clickSound.play().catch(error => console.error("효과음 재생 오류:", error));
+    }
+}
+
+// 2. 소리를 먼저 재생한 후, 원래 함수를 실행하는 만능 핸들러 함수
+function playSoundAndExecute(originalFunction, sound_id) {
+    playClickSound(sound_id); // 먼저 소리를 재생
+
+    // 0.2초 후에 원래 실행하려던 함수를 실행
+    setTimeout(() => {
+        if (typeof originalFunction === 'function') {
+            originalFunction();
+        }
+    }, 200);
+}
+
+ function preventGoBack() {
+            // 현재 URL을 히스토리 스택에 다시 추가하여 뒤로가기를 막는 효과
+            history.pushState(null, null, location.href);
+            alert("인생은 B(Birth)와 D(Death) 사이의 C(Choice)이다.\n Jean-Paul Sartre");
+        }
+
+        // 페이지가 처음 로드될 때 history 스택에 항목을 추가
+        // 이렇게 하면 뒤로가기 버튼을 눌렀을 때, 현재 페이지가 다시 로드됩니다.
+        window.onload = function() {
+            history.pushState(null, null, location.href);
+            
+            // popstate 이벤트를 감지하여 뒤로가기 버튼 클릭 시 preventGoBack 함수 실행
+            window.addEventListener('popstate', preventGoBack);
+        };

@@ -7,10 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>컴공이지만 연애는 하고싶어 연애시뮬레이션</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    
+
     <style>
         body {
-            background-image: url("../static/images/img_ed/최종합본/r.png");
+            background-image: url("../static/images/img_ed/최종합본/o.png");
         }
     </style>
 
@@ -23,20 +23,20 @@
 <body>
     <!--상호작용 박스-->
     <div class="interaction-box">
-        <!-- <div class="line">강지수:그래 앞으로 잘 부탁해~</div>
-        <div class="line">주인공:저는 운동이 취미에여.저기 농구 골대까지 달리기 시합 하실래요?</div> -->
-        <div class="line">강지수:그래, 이따 자기 전까지 우리 집으로 가져다 줘!!</div> 
+        <div class="line">강지수 : 빨리 와! 너무 봐주는 거 아니야?</div>
         <div class="choice-box">
             <div class="choice-btn-area">
-                <button class="continue-btn" onclick="playSoundAndExecute(() => load_game_new(20))">네, 죄송합니다.</button>
+                <button class="continue-btn" onclick="playSoundAndExecute(() => load_game_new(171))">지수 선배를 따라잡는다.</button>
+                <!-- <button class="choice-btn" onclick="load_game_new(7)">네 제가 꺼내 드릴께요</button> -->
             </div>
-            <div class="continue-btn-area">
-            </div>
+            <!-- <div class="continue-btn-area">
+                <button class="continue-btn" onclick="load_game_new(4)">결정</button>
+                <small class="regret-notice">후회불가능</small>
+            </div> -->
         </div>
     </div>
-        <!--JS 불러오기 코드-->
+
         <script src="{{ url_for('static', filename='js/script.js') }}"></script>
-        <audio id="click-sound" src="{{ url_for('static', filename='images/img_ed/최종합본/마우스효과음.mp3') }}" preload="auto"></audio>
 </body>
 
 </html>

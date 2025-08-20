@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>컴공이지만 연애는 하고싶어 연애시뮬레이션</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <style>
+        /* CSS for the game */
+        body {
+            /* Use the user-provided image for the body background */
+            background-image: url("../static/images/img_ed/최종합본/minigame.jpeg");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-attachment: fixed;
+            font-family: 'Noto Sans KR', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            flex-direction: column;
+            text-align: center;
+            padding: 20px;
+            box-sizing: border-box;
+            color: #fff;
+            position: relative;
+        }
+
+        /* Overlay to improve text readability on the background image */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+            z-index: -1;
+        }
+
+        .interaction-box {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 600px;
+            text-align: center;
+            position: relative;
+        }
+
+        .game-container {
+            width: 100%;
+            background: none;
+            padding: 0;
+            box-shadow: none;
+            animation: none;
+            transition: none;
+        }
+
+        .game-container:hover {
+            box-shadow: none;
+            animation-play-state: paused;
+            transform: none;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            color: #f1c40f;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        p {
+            font-size: 1.2em;
+            margin: 10px 0;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        #message {
+            font-size: 2em;
+            font-weight: bold;
+            color: #2ecc71;
+            margin-top: 30px;
+        }
+
+        #start-btn,
+        #next-btn {
+            padding: 12px;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #fff;
+            background-color: #4a638b;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.1s;
+            margin-top: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            width: 100%;
+        }
+
+        #start-btn:hover,
+        #next-btn:hover {
+            background-color: #3b5073;
+            transform: translateY(-2px);
+        }
+
+        #instructions {
+            font-size: 1em;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 20px;
+        }
+
+        /* Character and track styles */
+        .track-container {
+            width: 80%;
+            height: 50px;
+            margin: 20px auto;
+            position: relative;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .character {
+            position: absolute;
+            font-size: 3em;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: left 0.05s linear, transform 0.2s ease-in-out;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        .female-character {
+            left: 20%;
+            color: #f1c40f;
+        }
+
+        .male-character {
+            left: 90%;
+            color: #e74c3c;
+        }
+
+        /* Rock obstacle styles */
+        #rock-obstacle {
+            position: absolute;
+            font-size: 3em;
+            top: 50%;
+            transform: translateY(-50%);
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Interaction box -->
+    <div class="interaction-box">
+        <!-- Spacebar game code start -->
+        <div class="game-container">
+            <h1>사랑의 달리기 게임</h1>
+            <p>스페이스바를 연타해서 달리기 실력을 그녀에게 뽐내세요!</p>
+
+            <!-- Track for characters to move -->
+            <div class="track-container">
+                <div id="female-character" class="character female-character">❤️</div>
+                <div id="male-character" class="character male-character">🏃‍♂️</div>
+                <div id="rock-obstacle" class="character">🪨</div>
+            </div>
+
+            <div id="countdown-display">
+                <p>남은 시간</p>
+                <div id="timer">15.00</div>
+            </div>
+
+            <button id="start-btn">게임 시작</button>
+
+            <div id="message"></div>
+
+            <div id="instructions">
+                게임이 시작되면 스페이스바를 연타하세요.
+            </div>
+        </div>
+        <!-- Spacebar game code end -->
+    </div>
+    <!-- Spacebar game script -->
+    <script>
+        // DOM elements
+        const startBtn = document.getElementById('start-btn');
+        const timerDisplay = document.getElementById('timer');
+        const messageDisplay = document.getElementById('message');
+        const countdownSection = document.getElementById('countdown-display');
+        const instructions = document.getElementById('instructions');
+        const femaleChar = document.getElementById('female-character');
+        const maleChar = document.getElementById('male-character');
+        const rockObstacle = document.getElementById('rock-obstacle');
+
+        // Game variables
+        let femalePosition = 20;
+        let malePosition = 90;
+        let femaleSpeed = 0.02;
+        let maleSpeed = 0.5;
+        let gameIntervalId = null;
+        let gameActive = false;
+        let timeLeft = 15;
+
+        // Animation variables
+        const maleAnimationEmojis = ['🏃‍♂️', '🚶‍♂️'];
+        let animationFrame = 0;
+        const animationSpeed = 5;
+
+        function startGame() {
+            gameActive = true;
+            timeLeft = 15;
+            femalePosition = 20;
+            malePosition = 90;
+            femaleChar.style.left = `${femalePosition}%`;
+            maleChar.style.left = `${malePosition}%`;
+            femaleChar.textContent = '❤️';
+            maleChar.textContent = maleAnimationEmojis[0];
+            rockObstacle.style.display = 'none';
+            messageDisplay.textContent = '';
+            messageDisplay.style.color = '#2ecc71';
+
+            startBtn.style.display = 'none';
+            countdownSection.style.display = 'block';
+            instructions.style.display = 'none';
+
+            document.addEventListener('keydown', handleKeyDown);
+
+            gameIntervalId = setInterval(() => {
+                timeLeft -= 0.01;
+                if (timeLeft <= 0) {
+                    endGame('time_out');
+                } else {
+                    timerDisplay.textContent = timeLeft.toFixed(2);
+                }
+
+                animationFrame = (animationFrame + 1) % animationSpeed;
+
+                if (animationFrame === 0) {
+                    const maleEmojiIndex = Math.floor(Math.random() * maleAnimationEmojis.length);
+                    maleChar.textContent = maleAnimationEmojis[maleEmojiIndex];
+                }
+
+                femalePosition -= femaleSpeed;
+                femaleChar.style.left = `${femalePosition}%`;
+
+                if (malePosition <= femalePosition) {
+                    endGame('success');
+                }
+            }, 10);
+        }
+
+        function handleKeyDown(event) {
+            if (gameActive && event.code === 'Space') {
+                event.preventDefault();
+                if (malePosition > 5) {
+                    malePosition -= maleSpeed;
+                    maleChar.style.left = `${malePosition}%`;
+                }
+            }
+        }
+
+
+        function endGame(result) {
+            gameActive = false;
+            clearInterval(gameIntervalId);
+
+            document.removeEventListener('keydown', handleKeyDown);
+
+            if (result === 'success') {
+                maleChar.textContent = ' ';
+                messageDisplay.textContent = `성공! 주인공을 따라잡았습니다!`;
+                messageDisplay.style.color = '#2ecc71';
+            } else if (result === 'time_out') {
+                rockObstacle.style.left = `${malePosition - 2}%`;
+                rockObstacle.style.display = 'block';
+                maleChar.textContent = '🤦‍♂️';
+                messageDisplay.textContent = `실패! 돌에 걸려 넘어졌습니다.`;
+                messageDisplay.style.color = '#e74c3c';
+            }
+
+            // 성공/실패 여부와 관계없이 '다음 이야기' 버튼을 생성
+            const nextBtn = document.createElement('button');
+            nextBtn.id = 'next-btn';
+            nextBtn.textContent = '다음 이야기';
+
+            // 버튼 클릭 시 load_game_new() 함수 호출
+            nextBtn.onclick = () => {
+                messageDisplay.textContent = '다음 이야기로 넘어갑니다!';
+                nextBtn.remove();
+                startBtn.style.display = 'block';
+                countdownSection.style.display = 'none';
+                instructions.style.display = 'block';
+                femaleChar.style.left = '20%';
+                maleChar.style.left = '90%';
+                load_game_new(17);
+            };
+
+            document.querySelector('.game-container').appendChild(nextBtn);
+        }
+
+
+        startBtn.addEventListener('click', startGame);
+    </script>
+    <!--JS 불러오기 코드-->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+
+</html>

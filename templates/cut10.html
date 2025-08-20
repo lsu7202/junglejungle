@@ -13,15 +13,27 @@
         }
     </style>
 
+    <script>
+        $(document).ready(function () {
+            username = load_usernameInSession()
+            console.log(username)
+    $('#username_line').html(
+        `
+        <div class="line">강지수:고마워 ${username}아~~!그럼 커피는 선배가 쏠게~</div>
+        `
+    )
+});
+    </script>
+
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main_style.css') }}">
 </head>
 
 <body>
     <div class="interaction-box">
-        <div class="line">강지수:고마워~~!그럼 커피는 선배가 쏠게~</div>
+        <div class="line" id="username_line"></div>
         <div class="choice-box">
             <div class="choice-btn-area">
-                <button class="continue-btn" onclick="load_game_new(11)">카페로 이동하기</button>
+                <button class="continue-btn" onclick="playSoundAndExecute(() => load_game_new(11))">카페로 이동하기</button>
             </div>
             <div class="continue-btn-area">
                 <!-- <button class="choice-btn" onclick="load_game_new(11)">카페로 이동하기</button> -->
@@ -30,6 +42,7 @@
         </div>
     </div>
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <audio id="click-sound" src="{{ url_for('static', filename='images/img_ed/최종합본/마우스효과음.mp3') }}" preload="auto"></audio>
 </body>
 
 </html>

@@ -144,6 +144,25 @@ def save_choice():
         )
         
         return jsonify({'result': 'success'})
+    
+@app.route('/api/choices/clear', methods=['POST'])
+def clear_choices():
+    """
+    특정 playerID를 가진 문서를 DB에서 완전히 삭제하여 모든 선택지를 제거합니다.
+    """
+    if request.method == 'POST':
+        playerID = request.form.get('playerID')
+
+        # playerID가 일치하는 문서를 삭제합니다.
+        result = db.choices.delete_one({'playerID': playerID})
+        
+        # 삭제가 성공했는지 여부에 따라 다른 메시지를 반환합니다.
+        if result.deleted_count > 0:
+            return jsonify({'result': 'success', 'msg': '모든 선택이 초기화되었습니다.'})
+        else:
+            return jsonify({'result': 'fail', 'msg': '초기화할 플레이어 정보를 찾지 못했습니다.'})
+
+
 
 @app.route('/api/choices', methods=['GET'])  
 def get_choices():

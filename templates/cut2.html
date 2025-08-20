@@ -14,6 +14,18 @@
         }
     </style>
 
+    <script>
+        $(document).ready(function () {
+            username = load_usernameInSession()
+            console.log(username)
+    $('#username_line').html(
+        `
+        <div class="line">강지수 :그래~ ${username}아 앞으로 잘 부탁해~!</div>
+        `
+    )
+});
+    </script>
+
     <!--CSS 불러오기 코드-->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main_style.css') }}">
 </head>
@@ -23,41 +35,16 @@
 <body>
     <!--상호작용 박스-->
     <div class="interaction-box">
-        <div class="line">강지수:그래~앞으로 잘 부탁해~</div>
+        <div class="line" id="username_line"></div>
         <div class="choice-box">
             <div class="choice-btn-area">
-                <button class="continue-btn" onclick="load_game_new(4)">다음 이야기로</button>
+                <button class="continue-btn" onclick="playSoundAndExecute(() => load_game_new(4))">다음 이야기로</button>
             </div>
-            <!-- <div class="continue-btn-area">
-                <button class="continue-btn" onclick="load_game_new(4)">결정</button>
-                <small class="regret-notice">후회불가능</small>
-            </div> -->
         </div>
     </div>
-    <!-- <div class="interaction-box">
-        <div class="line">강지수 :아~너가 땡떙이구나</div>
-     
-
-        
-    
-           <div class="choice-box">
-            <div class="choice-btn-area">
-                <button class="choice-btn" onclick="load_game_new(2)">네.잘부탁드려요</button>
-                <button class="choice-btn" onclick="load_game_new(3)">풀 묻었어요...뷰티풀~하하 </button>
-                <button class="choice-btn" onclick="load_game_new(2)">대충 고개만 끄덕이기</button>
-            
-</div>
-</div>
-</div> -->
-
-    <!-- <div class="choice-box">
-        <div class="choice-btn-area"></div>
-        <div class="continue-btn-area">
-            <button class="continue-btn" onclick="load_game_new(4)">결정</button>
-            <small class="regret-notice">후회불가능</small>
-        </div> -->
         <!--JS 불러오기 코드-->
         <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+        <audio id="click-sound" src="{{ url_for('static', filename='images/img_ed/최종합본/마우스효과음.mp3') }}" preload="auto"></audio>
 </body>
 
 </html>

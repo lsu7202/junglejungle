@@ -9,10 +9,12 @@
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/game_ending_style.css') }}">
 
     <script>
+        playerID = parent.player_session.playerID
         $(document).ready(function () {
-            get_choices('USER1', function (choices) {
+            get_choices(playerID, function (choices) {
                 // 1. 객체를 [키, 값] 쌍의 배열로 변환
                 const entries = Object.entries(choices);
 
@@ -21,10 +23,12 @@
                     return Number(aKey) - Number(bKey);
                 });
 
-                let your_sequences = `<h4>당신의 선택들</h4>`
+                const filteredEntries = entries.filter(([key]) => Number(key) <= 30);
 
-                // 3. 정렬된 'entries' 배열을 직접 순회
-                entries.forEach(([key, value]) => {
+                let your_sequences = `<h4>당신의 선택들</h4>`;
+
+                // 4. 필터링된 'filteredEntries' 배열을 순회
+                filteredEntries.forEach(([key, value]) => {
                     if (value != null) {
                         your_sequences += `<div class="choice-sequence-text">${value}</div>`;
                     }
@@ -32,9 +36,17 @@
 
                 let Developers_html =
                     `
-                    <h4>만든 사람들</h4>
-                    <h5>크래프톤 정글 2팀 : 이승욱, 이수빈, 천현준</h5>
-                    <h5>Google Gemini</h5>
+                    <br><br><br>
+                    <h3>TITLE</h3>
+                    <h5>컴공이지만 연애는 하고싶어 : 연애시뮬레이션</h5>
+                    <br><br><h3>CAST</h3>
+                    <h5>강지수  주인공</h5>
+                    <br><br><h3>Developers</h3>
+                    <h5>천현준  이수빈  이승욱</h5>
+                    <br><br><h3>SUPPOTER</h3>
+                    <h5>Thanks to 이후길</h5>
+                    <br><br><h3>AUTHORSHIPS</h3>
+                    <h5>배경음악 : 두근두근 문예부! ost</h5>
                 `
 
                 const ending_credits_html = your_sequences + Developers_html;
@@ -43,19 +55,16 @@
             });
 
             show_review();
-
-
         });
-
     </script>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/game_ending_style.css') }}">
-
     <style>
+        /* 기본 설정 */
         body {
             background-color: #000;
             color: #fff;
-            font-family: Arial, sans-serif;
+            font-family: 'Inter', Arial, sans-serif;
+            /* 폰트 변경 */
             margin: 0;
         }
 
@@ -67,14 +76,17 @@
             margin: 50px auto;
         }
 
+        /* --- [수정된 부분 START] --- */
+
         .screen-container {
             position: relative;
             padding-bottom: 56.25%;
-            /* 16:9 Aspect Ratio */
-            background: #333;
+            background: #000;
+            /* 배경을 더 어둡게 변경 */
             border: 5px solid #222;
             box-shadow: 0 0 50px rgba(255, 255, 255, 0.1);
             overflow: hidden;
+            /* 이 부분이 중요합니다 */
         }
 
         .ending-credits {
@@ -82,24 +94,64 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%;
             display: flex;
             flex-direction: column;
             text-align: center;
             padding: 20px;
             box-sizing: border-box;
-            animation: scrollCredits 20s linear 2s infinite;
+            animation: scrollCredits 60s linear infinite;
+            /* infinite 추가 */
         }
 
         @keyframes scrollCredits {
             0% {
+                /* 화면 아래쪽에서 시작 */
                 transform: translateY(100%);
             }
 
             100% {
-                transform: translateY(-100%);
+                /* 화면 위로 완전히 사라지도록 변경 */
+                transform: translateY(-120%);
             }
         }
+
+        /* [추가] 엔딩 크레딧 텍스트 스타일 */
+        .ending-credits h4,
+        .ending-credits h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #ccc;
+            text-transform: uppercase;
+            /* 대문자 변환 */
+            letter-spacing: 0.2em;
+            /* 자간 넓게 */
+            margin-top: 3rem;
+            /* 섹션 간격 */
+            margin-bottom: 1rem;
+        }
+
+        .ending-credits h4 {
+            /* '당신의 선택들' 제목을 더 강조 */
+            font-size: 1.5rem;
+            color: #fff;
+        }
+
+        .ending-credits h5,
+        .ending-credits .choice-sequence-text {
+            font-size: 1rem;
+            font-weight: 400;
+            color: #a0a0a0;
+            line-height: 1.7;
+            /* 줄 간격 */
+            margin: 0.2rem 0;
+        }
+
+        .ending-credits .choice-sequence-text {
+            color: #dbdbdb;
+            /* 선택지는 약간 더 밝게 표시 */
+        }
+
+        /* --- [수정된 부분 END] --- */
 
 
         .choice-sequence-text {
@@ -167,7 +219,7 @@
         .submit-button:hover {
             background-color: #444444;
         }
-        
+
         /* --- 버튼 공통 스타일 --- */
         .view-replies-btn,
         .reply-btn {
@@ -181,25 +233,28 @@
             cursor: pointer;
             transition: background-color 0.3s, color 0.3s;
         }
-        
+
         .view-replies-btn:hover,
         .reply-btn:hover {
             background-color: #3c3c3c;
             color: #fff;
         }
-        
+
         /* --- '답글달기' 버튼만 적용되는 스타일 --- */
         .reply-btn {
-            display: none; /* 기본적으로 숨김 */
+            display: none;
+            /* 기본적으로 숨김 */
         }
-        
+
         .comment-box:hover .reply-btn {
-            display: inline-block; /* 마우스 올렸을 때 보이게 */
+            display: inline-block;
+            /* 마우스 올렸을 때 보이게 */
         }
 
         /* --- 버튼 컨테이너 스타일 --- */
         .reply-button-container {
-            text-align: right; /* 버튼을 오른쪽으로 정렬 */
+            text-align: right;
+            /* 버튼을 오른쪽으로 정렬 */
             margin-top: 15px;
             padding-top: 10px;
             border-top: 1px solid #222;
@@ -241,7 +296,8 @@
 
         /* --- 기존 답글 표시 스타일 --- */
         .replies-container {
-            display: none; /* 기본적으로 답글 숨기기 */
+            display: none;
+            /* 기본적으로 답글 숨기기 */
             margin-top: 20px;
             padding: 20px;
             background-color: #0a0a0a;
@@ -281,8 +337,7 @@
         </div>
 
         <div class="contents">
-            </div>
-
+        </div>
     </div>
 
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>

@@ -13,16 +13,28 @@
         }
     </style>
 
+    <script>
+        $(document).ready(function () {
+            username = load_usernameInSession()
+            console.log(username)
+    $('#username_line').html(
+        `
+        <div class="line">강지수: ${username}군은 뭐 마실거야?</div>
+        `
+    )
+});
+    </script>
+
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main_style.css') }}">
 </head>
 
 <body>
     <div class="interaction-box">
-        <div class="line">강지수:뭐 마실거야? 나는 아이스 아메리카노</div>
+        <div class="line" id="username_line"></div>
         <div class="choice-box">
             <div class="choice-btn-area">
-                 <button class="choice-btn" data-next-cut="12" data-current-cut="11" data-choice-text="뭐 마실거야? 나는 아이스 아메리카노 : 같이 아이스 아메리카노 시키기">같이 아이스 아메리카노 시키기</button>
-                <button class="choice-btn" data-next-cut="13" data-current-cut="11" data-choice-text="뭐 마실거야? 나는 아이스 아메리카노 : 저는 자몽허니블랙티에 휘핑크림 추가해주세요">저는 자몽허니블랙티에 휘핑크림 추가해주세요</button>
+                <button class="choice-btn" data-next-cut="111" data-current-cut="11" data-choice-text="넌 뭐 마실 거야? : 선배는 뭐 드실 거에요?">선배는 뭐 드실 거에요?</button>
+                
             </div>
             <div class="continue-btn-area">
                 <!-- <button class="choice-btn" onclick="load_game_new(12)">같이 아이스 아메리카노 시키기</button>
@@ -33,6 +45,7 @@
         </div>
     </div>
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <audio id="click-sound" src="{{ url_for('static', filename='images/img_ed/최종합본/마우스효과음.mp3') }}" preload="auto"></audio>
 </body>
 
 </html>

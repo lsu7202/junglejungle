@@ -16,6 +16,7 @@
 
     <!--CSS 불러오기 코드-->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main_style.css') }}">
+
 </head>
 
 </head>
@@ -30,26 +31,13 @@
                 <button class="choice-btn" data-current-cut="6" data-next-cut="8" data-choice-text="근데 나좀 도와 줄 수 있어...?! : 아니요">아니요</button>
 
             </div>
-        <!-- <div class="choice-box">
-            <div class="choice-btn-area">
-
-            </div>
-            < <div class="continue-btn-area">
-                <button class="continue-btn" onclick="load_game_new(7)" >예</button>
-                <button class="continue-btn" onclick="load_game_new(8)">아니요</button> -->
-                <!-- <small class="regret-notice">후회불가능</small> -->
             </div> 
         </div>
     </div>
 
-    <!-- <div class="choice-box">
-        <div class="choice-btn-area"></div>
-        <div class="continue-btn-area">
-            <button class="continue-btn" onclick="load_game_new(4)">결정</button>
-            <small class="regret-notice">후회불가능</small>
-        </div> -->
     <!--JS 불러오기 코드-->
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <audio id="click-sound" src="{{ url_for('static', filename='images/img_ed/최종합본/마우스효과음.mp3') }}" preload="auto"></audio>
 </body>
 
 </html>

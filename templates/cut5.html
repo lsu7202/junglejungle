@@ -14,6 +14,18 @@
         }
     </style>
 
+    <script>
+        $(document).ready(function () {
+            username = load_usernameInSession()
+            console.log(username)
+    $('#username_line').html(
+        `
+        <div class="line">강지수 :어 너,저번에 인사한 ${username}후배구나!</div>
+        `
+    )
+});
+    </script>
+
     <!--CSS 불러오기 코드-->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main_style.css') }}">
 </head>
@@ -23,20 +35,17 @@
 <body>
     <!--상호작용 박스-->
     <div class="interaction-box">
-        <div class="line">어 너,저번에 인사한 00후배구나!</div>
+        <div class="line" id="username_line"></div>
         <div class="choice-box">
             <div class="choice-btn-area">
-                <button class="continue-btn" onclick="load_game_new(6)">네 안녕하세요~~</button>
+                <button class="continue-btn" onclick="playSoundAndExecute(() => load_game_new(6))">네 안녕하세요~~</button>
                 <!-- <button class="choice-btn" onclick="load_game_new(7)">네 제가 꺼내 드릴께요</button> -->
             </div>
-            <!-- <div class="continue-btn-area">
-                <button class="continue-btn" onclick="load_game_new(4)">결정</button>
-                <small class="regret-notice">후회불가능</small>
-            </div> -->
         </div>
     </div>
 
         <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+        <audio id="click-sound" src="{{ url_for('static', filename='images/img_ed/최종합본/마우스효과음.mp3') }}" preload="auto"></audio>
 </body>
 
 </html>

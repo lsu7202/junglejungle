@@ -26,23 +26,16 @@
         <div class="line">(............)</div>
         <div class="choice-box">
             <div class="choice-btn-area">
-                 <button class="continue-btn" onclick="load_game_new(9)">(....ㅎㅎ)</button>
+                 <button class="continue-btn" onclick="playSoundAndExecute(() => load_game_new(9))">(....ㅎㅎ)</button>
             </div>
             <div class="continue-btn-area">
-                <!-- <button class="continue-btn" onclick="load_game_new(14)">네 감사합니다.</button> -->
-                <!-- <small class="regret-notice">후회불가능</small> -->
             </div>
         </div>
     </div>
 
-    <!-- <div class="choice-box">
-        <div class="choice-btn-area"></div>
-        <div class="continue-btn-area">
-            <button class="continue-btn" onclick="load_game_new(4)">결정</button>
-            <small class="regret-notice">후회불가능</small>
-        </div> -->
         <!--JS 불러오기 코드-->
         <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+        <audio id="click-sound" src="{{ url_for('static', filename='images/img_ed/최종합본/마우스효과음.mp3') }}" preload="auto"></audio>
 </body>
 
 </html>

@@ -10,7 +10,7 @@
 
     <style>
         body {
-            background-image: url("../static/images/img_ed/최종합본/v.png");
+            background-image: url("../static/images/img_ed/최종합본/o.png");
         }
     </style>
 
@@ -20,7 +20,7 @@
             console.log(username)
     $('#username_line').html(
         `
-        <div class="line">강지수: 뭐야! ${username}아 이게 어떻게 된거야!!!</div>
+        <div class="line">강지수: ${username}아 좀 더 빨리 뛰어봐!</div>
         `
     )
 });
@@ -38,16 +38,18 @@
         <div class="line" id="username_line"></div>
         <div class="choice-box">
             <div class="choice-btn-area">
-                <button class="continue-btn" onclick="playSoundAndExecute(() => load_game_new(28))">죄송합니다</button>
+                <button class="continue-btn" onclick="playSoundAndExecute(() => load_game_new(162))">방금 시작했잖아요!</button>
+                <button class="continue-btn" onclick="playSoundAndExecute(() => load_game_new(162))">제가 봐주는 거거든요?</button>
+                <!-- <button class="choice-btn" onclick="load_game_new(7)">네 제가 꺼내 드릴께요</button> -->
             </div>
-            <div class="continue-btn-area">
-
-            </div>
+            <!-- <div class="continue-btn-area">
+                <button class="continue-btn" onclick="load_game_new(4)">결정</button>
+                <small class="regret-notice">후회불가능</small>
+            </div> -->
         </div>
     </div>
-        <!--JS 불러오기 코드-->
+
         <script src="{{ url_for('static', filename='js/script.js') }}"></script>
-        <audio id="click-sound" src="{{ url_for('static', filename='images/img_ed/최종합본/마우스효과음.mp3') }}" preload="auto"></audio>
 </body>
 
 </html>

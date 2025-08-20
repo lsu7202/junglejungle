@@ -14,6 +14,18 @@
         }
     </style>
 
+    <script>
+        $(document).ready(function () {
+            username = load_usernameInSession()
+            console.log(username)
+    $('#username_line').html(
+        `
+        <div class="line">강지수: ${username}이는 취미가 뭐야?</div>
+        `
+    )
+});
+    </script>
+
     <!--CSS 불러오기 코드-->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main_style.css') }}">
 </head>
@@ -25,7 +37,7 @@
     <div class="interaction-box">
         <!-- <div class="line">강지수:그래 앞으로 잘 부탁해~</div>
         <div class="line">주인공:저는 운동이 취미에여.저기 농구 골대까지 달리기 시합 하실래요?</div> -->
-        <div class="line">강지수:너는 취미가 뭐야?</div> 
+        <div class="line" id="username_line"></div>
         <div class="choice-box">
             <div class="choice-btn-area">
                  <button class="choice-btn" data-next-cut="16" data-current-cut="15" data-choice-text="너는 취미가 뭐야? : 저는 코딩.. 아 아니 러닝이 취미에요">저는 코딩..아 아니 러닝이 취미에요</button>
@@ -45,6 +57,7 @@
         </div> -->
         <!--JS 불러오기 코드-->
         <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+        <audio id="click-sound" src="{{ url_for('static', filename='images/img_ed/최종합본/마우스효과음.mp3') }}" preload="auto"></audio>
 </body>
 
 </html>

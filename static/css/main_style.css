@@ -108,6 +108,26 @@ body {
     box-sizing: border-box; /* 패딩과 테두리를 전체 크기에 포함시킵니다. */
 }
 
+/* 쿵쾅거리는 애니메이션 키프레임 정의 */
+@keyframes heart-beat {
+    0% { transform: translateX(-50%) scale(0.98); }
+    50% { transform: translateX(-50%) scale(1.02); }
+    100% { transform: translateX(-50%) scale(0.98); }
+}
+
+/* 마우스를 올렸을 때 애니메이션 */
+.interaction-box:hover {
+    animation: heart-beat-hover 0.5s infinite; /* 더 빠르고 큰 애니메이션 적용 */
+}
+
+/* 마우스를 올렸을 때 애니메이션 키프레임 정의 */
+@keyframes heart-beat-hover {
+    0% { transform: translateX(-50%) scale(1); }
+    50% { transform: translateX(-50%) scale(1.03); }
+    100% { transform: translateX(-50%) scale(1); }
+}
+
+
 /* '계속' 또는 '결정' 버튼 영역 */
 /* .continue-btn-area {
     margin-left: auto; /* 이 속성이 요소를 오른쪽 끝으로 밀어냅니다. */
