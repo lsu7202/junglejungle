@@ -6,31 +6,115 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>컴공이지만 연애는 하고싶어 연애시뮬레이션</title>
 
-    <!--CSS 불러오기 코드-->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/index_style.css') }}">
-</head>
 </head>
 
 <body>
-    <!---jquery 불러오기 코드-->
+    <audio id="main-bgm" src="{{ url_for('static', filename='images/img_ed/최종합본/videoplayback.m4a') }}" loop></audio>
+    <audio id="new-bgm" src="{{ url_for('static', filename='images/img_ed/최종합본/videoplayback_1.mp3') }}" loop></audio>
+
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
-    <!---웹 껍데기-->
     <div class="main-container">
         <div class="title-text">
         </div>
 
-        <!--로그인기능 필요시 구현-->
         <div class="login">
         </div>
 
-        <!--게임 불러오기-->
         <iframe id="game-container" src="{{ url_for('game_login') }}" width="1600" height="900" frameborder="0"></iframe>
-
     </div>
 
-    <!--JS 불러오기 코드-->
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+    <script>
+        const mainBGM = document.getElementById('main-bgm');
+        const newBGM = document.getElementById('new-bgm');
+
+        window.addEventListener('message', function(event) {
+            const message = event.data;
+
+            if (message === 'play_bgm') {
+                if (mainBGM) {
+                    newBGM.pause();
+                    mainBGM.play().catch(e => {
+                        console.error("배경음악 재생 실패:", e);
+                    });
+                }
+            } else if (message === 'play_new_bgm') {
+                if (newBGM) {
+                    mainBGM.pause();
+                    newBGM.play().catch(e => {
+                        console.error("새로운 배경음악 재생 실패:", e);
+                    });
+                }
+            }
+        });
+    </script>
 </body>
 
 </html>
+<!-- <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>컴공이지만 연애는 하고싶어 연애시뮬레이션</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index_style.css') }}">
+</head>
+
+<body>
+    <audio id="main-bgm" src="/static/images/img_ed/최종합본/videoplayback.m4a" loop></audio>
+    <audio id="new-bgm" src="/static/audio/new_bgm_file.mp3" loop></audio>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+    <div class="main-container">
+        <div class="title-text">
+        </div>
+
+        <div class="login">
+        </div>
+
+        <iframe id="game-container" src="{{ url_for('game_login') }}" width="1600" height="900" frameborder="0"></iframe>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+    <script>
+        // 모든 오디오 요소를 변수로 지정
+        const mainBGM = document.getElementById('main-bgm');
+        const newBGM = document.getElementById('new-bgm');
+
+        // 메시지에 따라 BGM을 제어하는 리스너
+        window.addEventListener('message', function(event) {
+            const message = event.data;
+
+            if (message === 'play_bgm') {
+                // 'main-bgm'을 재생
+                if (mainBGM) {
+                    newBGM.pause();
+                    mainBGM.play().catch(e => {
+                        console.error("배경음악 재생 실패:", e);
+                    });
+                }
+            } else if (message === 'stop_bgm') {
+                // 모든 BGM을 멈춤
+                mainBGM.pause();
+                newBGM.pause();
+            } else if (message === 'play_new_bgm') {
+                // 새로운 BGM을 재생
+                if (newBGM) {
+                    mainBGM.pause();
+                    newBGM.play().catch(e => {
+                        console.error("새로운 배경음악 재생 실패:", e);
+                    });
+                }
+            }
+        });
+    </script>
+</body>
+
+</html> -->

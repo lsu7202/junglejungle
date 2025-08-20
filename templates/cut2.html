@@ -26,7 +26,8 @@
         <div class="line">강지수:그래~앞으로 잘 부탁해~</div>
         <div class="choice-box">
             <div class="choice-btn-area">
-                <button class="continue-btn" onclick="load_game_new(4)">다음 이야기로</button>
+                <button class="continue-btn" onclick="playSoundAndExecute(() => load_game_new(4))">다음 이야기로</button>
+                 <!-- <button class="select-btn" onclick="playSoundAndExecute(() => load_game_new(1))">결정</button> -->
             </div>
             <!-- <div class="continue-btn-area">
                 <button class="continue-btn" onclick="load_game_new(4)">결정</button>
@@ -59,5 +60,27 @@
         <!--JS 불러오기 코드-->
         <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
+<audio id="click-sound" src="{{ url_for('static', filename='images/img_ed/최종합본/마우스효과음.mp3') }}" preload="auto"></audio>
+
+<script>
+    // 1. 버튼 클릭 효과음을 재생하는 공통 함수
+    function playClickSound() {
+        const clickSound = document.getElementById('click-sound');
+        if (clickSound) {
+            clickSound.currentTime = 0;
+            clickSound.play().catch(error => console.error("효과음 재생 오류:", error));
+        }
+    }
+
+    // 2. 소리를 먼저 재생한 후, 원래 함수를 실행하는 만능 핸들러 함수
+    function playSoundAndExecute(originalFunction) {
+        playClickSound();
+        setTimeout(() => {
+            if (typeof originalFunction === 'function') {
+                originalFunction();
+            }
+        }, 200);
+    }
+</script>
 
 </html>

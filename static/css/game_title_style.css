@@ -1,7 +1,9 @@
 /* game_title_style.css (game_title.html) : 게임 타이틀 화면의 스타일 결정*/
 body {
     background-image: url("../images/title/title.png");
-    background-size: cover;
+    
+    /* 배경 이미지가 화면보다 크게 설정되어 흐르는 효과를 낼 수 있게 합니다. */
+    background-size: 120%;
     background-color: #1a1a2e; /* 어두운 게임 배경 */
     color: #e0e0e0;
     font-family: 'Arial', sans-serif;
@@ -10,6 +12,20 @@ body {
     height: 100%; /* iframe 높이에 맞춰짐 */
     margin: 0;
     overflow: hidden;
+
+    /* 배경 애니메이션 추가: 60초로 더 느리게, 세로로 흐르게 변경 */
+    animation: background-flow 60s linear infinite alternate;
+}
+
+/* 배경을 천천히 움직이게 하는 애니메이션 */
+@keyframes background-flow {
+    from {
+        background-position: 0 0;
+    }
+    to {
+        /* X축은 그대로 두고 Y축만 100%로 변경하여 세로로 흐르게 함 */
+        background-position: 0 100%;
+    }
 }
 
 /* 게임 타이틀 화면 컨테이너 */
@@ -19,17 +35,13 @@ body {
     align-items: center;
     flex-direction: column;
     display: flex;
-    
 }
 
+
 /* 게임 타이틀 텍스트 이미지 스타일 */
-#title-text-img {
-    justify-self: center;
-    margin-top:100px;
-}
-#title-text-img img {
-    border:none;
-}
+/* game_title_style.css */
+
+/* ... (기존 CSS 코드) ... */
 
 
 /* 불러오기 버튼 컨테이너 */

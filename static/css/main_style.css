@@ -3,7 +3,7 @@
 /* 기본 Body 스타일 */
 body {
     /* 사용자의 배경 이미지는 그대로 유지됩니다 */
-    background-size: cover; /* 배경이 페이지 전체를 덮도록 설정 */
+    background-size: 120%; /* 배경이 페이지 전체를 덮도록 설정 */
     background-position: center; /* 배경 이미지를 중앙에 위치 */
     background-repeat: no-repeat; /* 배경 이미지가 반복되지 않도록 설정 */
     font-family: 'Noto Sans KR', sans-serif; /* 게임에서 자주 사용하는 깔끔하고 현대적인 글꼴 */
@@ -11,65 +11,36 @@ body {
     padding: 0;
     height: 100vh;
     overflow: hidden; /* 스크롤바가 생기지 않도록 방지 */
-    background-size: contain;
+    
+    /* 배경 애니메이션: 흐르지 않고 제자리에서 아주 천천히 확대/축소 */
+    animation: background-subtle-motion 60s linear infinite alternate;
 }
 
-/* 캐릭터 박스 스타일 (예: 캐릭터 이름 표시용) */
-.character-box {
-    position: absolute;
-    top: 15%; /* 화면 상단 1/3 지점에 위치 */
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: rgba(0, 0, 0, 0.6); /* 반투명 검은색 */
-    color: white;
-    padding: 10px 25px;
-    border-radius: 25px; /* 부드러운 둥근 모서리 */
-    font-size: 20px;
-    font-weight: bold;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    z-index: 10;
+/* 배경에 은은한 움직임을 주는 애니메이션 */
+@keyframes background-subtle-motion {
+    from {
+        transform: scale(1);
+    }
+    to {
+        /* 배경이 5% 확대되었다가 다시 돌아오게 함 */
+        transform: scale(1.05);
+    }
 }
 
-/* 메인 상호작용 박스 스타일 */
-/* 메인 상호작용 박스 스타일 */
-/* 메인 상호작용 박스 스타일 */
-
-
-
-
-/* 텍스트(대사) 영역 */
-.text-area {
-    height: 60%; /* interaction-box 높이의 60%를 차지합니다. */
-    width: 100%;
-    display: flex;
-    flex-direction: column; /* 내부 요소(대사, 입력창)를 세로로 정렬 */
-    justify-content: center; /* 세로 중앙 정렬 */
-    align-items: center; /* 가로 중앙 정렬 */
-    padding-bottom: 20px; /* 선택지 박스와의 간격 증가 */
-    box-sizing: border-box;
+/* UI 요소에 적용할 두근거리는 애니메이션 */
+@keyframes pulse {
+    0% {
+        transform: scale(1) translateX(-50%);
+    }
+    50% {
+        transform: scale(1.01) translateX(-50%); /* 살짝 커지는 효과 */
+    }
+    100% {
+        transform: scale(1) translateX(-50%);
+    }
 }
 
-/* 선택지 영역 */
-
-
-.input-area {
-    width: 100%;
-    text-align: center;
-    margin-top: 15px; /* 대사와의 간격 추가 */
-}
-
-/* 기본 Body 스타일 */
-body {
-    /* 사용자의 배경 이미지는 그대로 유지됩니다 */
-    background-size: cover; /* 배경이 페이지 전체를 덮도록 설정 */
-    background-position: center; /* 배경 이미지를 중앙에 위치 */
-    background-repeat: no-repeat; /* 배경 이미지가 반복되지 않도록 설정 */
-    font-family: 'Noto Sans KR', sans-serif; /* 게임에서 자주 사용하는 깔끔하고 현대적인 글꼴 */
-    margin: 0;
-    padding: 0;
-    height: 100vh;
-    overflow: hidden; /* 스크롤바가 생기지 않도록 방지 */
-}
+/* 아래는 기존 코드... */
 
 /* 캐릭터 박스 스타일 (예: 캐릭터 이름 표시용) */
 .character-box {
@@ -106,12 +77,36 @@ body {
     flex-direction: column; /* 자식 요소들을 세로로 정렬합니다. */
     padding: 20px;
     box-sizing: border-box; /* 패딩과 테두리를 전체 크기에 포함시킵니다. */
+    
+    /* 대화창에 두근거리는 애니메이션을 적용합니다. */
+    animation: pulse 2s infinite ease-in-out;
+}
+
+.interaction-box:hover {
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+    /* 마우스를 올리면 애니메이션이 더 빨라집니다. (속도 조절) */
+    animation-duration: 1.5s;
+}
+/* 텍스트(대사) 영역 */
+.text-area {
+    height: 60%; /* interaction-box 높이의 60%를 차지합니다. */
+    width: 100%;
+    display: flex;
+    flex-direction: column; /* 내부 요소(대사, 입력창)를 세로로 정렬 */
+    justify-content: center; /* 세로 중앙 정렬 */
+    align-items: center; /* 가로 중앙 정렬 */
+    padding-bottom: 20px; /* 선택지 박스와의 간격 증가 */
+    box-sizing: border-box;
+}
+
+/* 선택지 영역 */
+.input-area {
+    width: 100%;
+    text-align: center;
+    margin-top: 15px; /* 대사와의 간격 추가 */
 }
 
 /* '계속' 또는 '결정' 버튼 영역 */
-/* .continue-btn-area {
-    margin-left: auto; /* 이 속성이 요소를 오른쪽 끝으로 밀어냅니다. */
-
 .continue-btn-area {
     margin-left: auto; /* 이 속성이 요소를 오른쪽 끝으로 밀어냅니다. */
     display: flex; /* 내부 요소(버튼, 텍스트) 정렬을 위해 flex 사용 */
@@ -146,7 +141,7 @@ body {
 /* 이름 입력창 포커스 효과 */
 #playerName:focus {
     border-bottom-color: #fff; /* 포커스 시 밑줄을 더 선명하게 */
-    box-shadow: 0 2px 10px rgba(255, 255, 255, 0.2);
+    box-shadow: 2px 2px 10px rgba(255, 255, 255, 0.2);
 }
 
 /* 버튼 공통 스타일 */
@@ -175,14 +170,14 @@ body {
 }
 /* 캐릭터 추가하기 */
 .normal_people {
-  width: 200px;         /* 이미지 너비 조절 */
-  height: px;         /* 비율 유지하면서 높이 자동 조절 */
-  margin-left: -30px;   /* 왼쪽으로 이동 */
+    width: 200px;/* 이미지 너비 조절 */
+    height: px;/* 비율 유지하면서 높이 자동 조절 */
+    margin-left: -30px;/* 왼쪽으로 이동 */
 }
 
 /* 마우스를 올렸을 때 */
 .normal_people:hover {
-  transform: scale(1.5) translateY(-10px) translateX(5px);
+    transform: scale(1.5) translateY(-10px) translateX(5px);
 }
 .choice-box {
     /* 이 부분은 삭제하지 말고 유지해야 합니다. */
@@ -203,14 +198,13 @@ body {
     display: flex;
     flex-direction: column; /* 세로 정렬 */
     gap: 15px; /* 버튼 사이 간격 */
-   
+    
     /* 이 속성은 필요 없으면 제거해도 됩니다. */
-   /
+    /
 }
 .choice-btn {
     width: 600px; /* 버튼의 너비를 200px로 고정 */
     height: 35px; /* 버튼의 높이를 50px로 고정 */
-  
     background-color: #333; /* 어두운 회색 배경 */
     color: #fff; /* 흰색 글자색 */
     border: 1px solid #555; /* 약간 더 밝은 테두리 */
@@ -237,14 +231,13 @@ body {
     display: flex;
     flex-direction: column; /* 세로 정렬 */
     gap: 15px; /* 버튼 사이 간격 */
-   
+    
     /* 이 속성은 필요 없으면 제거해도 됩니다. */
-   /
+    /
 }
 .continue-btn {
     width: 600px; /* 버튼의 너비를 200px로 고정 */
     height: 35px; /* 버튼의 높이를 50px로 고정 */
-  
     background-color: #333; /* 어두운 회색 배경 */
     color: #fff; /* 흰색 글자색 */
     border: 1px solid #555; /* 약간 더 밝은 테두리 */
@@ -265,4 +258,3 @@ body {
     background-color: #222; /* 클릭 시 더 어두운 색으로 변경 */
     transform: translateY(0);
 }
-

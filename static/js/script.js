@@ -1,3 +1,11 @@
+
+
+
+
+
+
+
+
 // 컷 페이지 로드
 function load_game_new(cut_id) {
 

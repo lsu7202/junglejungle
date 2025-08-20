@@ -1,120 +1,33 @@
 <!DOCTYPE html>
-
 <html lang="ko">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>로그인</title>
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-
-    <!--CSS 불러오기 코드-->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/index_style.css') }}">
     <style>
-        body {
-            /* 배경 이미지와 조화를 위해 투명도를 추가합니다. */
-            background-image: url("../static/images/title/title.png");
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-position: center;
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            position: relative;
-            /* body에 직접 filter를 적용하는 대신, 가상 요소를 사용합니다. */
-        }
-        
-        /* 배경 이미지 위에 어두운 레이어를 추가하는 가상 요소 */
-        body::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(54, 50, 50, 0.3); /* 검은색 반투명 레이어 */
-            z-index: -1;
-        }
-
-        .login-box {
-            background-color: rgba(0, 0, 0, 0.4);
-            padding: 40px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
-            width: 300px;
-            text-align: center;
-            transition: transform 0.3s ease-in-out;
-        }
-        
-        /* 로그인 박스에 마우스를 올렸을 때 효과 */
-        .login-box:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-        }
-
-        .login-box h2 {
-            margin-bottom: 20px;
-            /* 텍스트 색상을 밝은 노란색으로 변경 */
-            color: #1b1806;
-        }
-
-        .user-input {
-            margin-bottom: 15px;
-            text-align: left;
-        }
-
-        .user-input label {
-            display: block;
-            margin-bottom: 5px;
-            /* 레이블 색상을 노란색으로 변경 */
-            color: #121003;
-        }
-
-        .user-input input {
-            width: 100%;
-            padding: 10px;
-            box-sizing: border-box;
-            background-color: transparent;
-            border: 2px solid #1a1605;
-            border-radius: 4px;
-            color: #fff;
-        }
-       
-       .login-btn {
-           width: 100%;
-           padding: 10px;
-           background-color: rgba(199, 206, 212, 0);
-           color: #110303;
-           border: none;
-           border-radius: 4px;
-           cursor: pointer;
-           font-size: 16px;
-           transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
-       }
-       
-       /* 버튼에 마우스를 올렸을 때 효과 */
-       .login-btn:hover {
-           background-color: rgba(199, 206, 212, 0.2);
-           transform: translateY(-3px);
-           box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-       }
-
-       /* 버튼을 클릭했을 때 효과 */
-       .login-btn:active {
-           transform: translateY(0);
-           background-color: rgba(199, 206, 212, 0.4);
-       }
-       
+        /* CSS는 이전과 동일하게 유지 */
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap');
+        body { background-image: url("../static/images/title/title.png"); background-size: 120%; background-repeat: no-repeat; background-position: center; font-family: 'Noto Sans KR', sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; position: relative; overflow: hidden; color: #fff; animation: background-flow 60s linear infinite alternate; }
+        @keyframes background-flow { from { background-position: 0 0; } to { background-position: 0 100%; } }
+        body::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.4); z-index: -1; }
+        .login-box { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); padding: 40px; border-radius: 12px; box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); width: 350px; text-align: center; position: relative; transform: none; animation: pulse 1.5s infinite ease-in-out; }
+        .login-box::before { display: none; }
+        .login-box:hover { box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2); animation-play-state: paused; transform: scale(1.02); }
+        .login-title { margin-bottom: 30px; color: #fff; font-size: 2em; font-weight: 700; letter-spacing: 2px; border-bottom: 2px solid rgba(255, 255, 255, 0.5); padding-bottom: 10px; }
+        .user-input { margin-bottom: 20px; text-align: left; }
+        .user-input label { display: block; margin-bottom: 8px; color: rgba(255, 255, 255, 0.8); font-weight: bold; text-transform: uppercase; font-size: 0.9em; }
+        .user-input input { width: 100%; padding: 12px; box-sizing: border-box; background-color: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 4px; color: #fff; font-family: 'Noto Sans KR', sans-serif; }
+        .login-btn { width: 100%; padding: 12px; background-color: #4a638b; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-size: 18px; font-weight: bold; transition: background-color 0.3s; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); animation: none; }
+        .login-btn:hover { background-color: #3b5073; }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
     </style>
 </head>
 
 <body>
     <div class="login-box">
-        <h2>로그인</h2>
+        <h2 class="login-title">로그인</h2>
         <div class="user-input">
             <label for="username">아이디</label>
             <input type="text" id="playerID_login" name="username">
@@ -123,31 +36,66 @@
             <label for="password">비밀번호</label>
             <input type="password" id="password_login" name="password">
         </div>
-        <button id="login-btn" class="login-btn" onclick="load_playerData()">로그인</button>
-        <div onclick="load_game_signup()" style="cursor: pointer;"><br>회원가입</div>
+        
+        <button id="login-btn" class="login-btn" onclick="handleLoginClick()">LOGIN</button>
+        <div onclick="handleSignupClick()" style="cursor: pointer; color:#5d4a3b;">회원가입</div>
+        </div>
 
-    </div>
-    <title>Prevent Key Combination</title>
-
-
+    <audio id="click-sound" src="{{ url_for('static', filename='images/img_ed/최종합본/마우스효과음.mp3') }}" preload="auto"></audio>
+    
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
     <script>
-        // JavaScript에서 뒤로가기를 방지하는 함수
-        function preventGoBack() {
-            // 현재 URL을 히스토리 스택에 다시 추가하여 뒤로가기를 막는 효과
-            history.pushState(null, null, location.href);
-            alert("뒤로 갈 수 없다");
+        // ==================== JavaScript 수정 부분 ====================
+
+        // 공통 클릭 사운드 재생 함수
+        function playClickSound() {
+            const clickSound = document.getElementById('click-sound');
+            if (clickSound) {
+                clickSound.currentTime = 0;
+                clickSound.play();
+            }
         }
 
-        // 페이지가 처음 로드될 때 history 스택에 항목을 추가
-        // 이렇게 하면 뒤로가기 버튼을 눌렀을 때, 현재 페이지가 다시 로드됩니다.
+        // 로그인 버튼 클릭 처리 함수
+        function handleLoginClick() {
+            playClickSound(); // 먼저 소리를 재생
+            
+            // 200ms(0.2초) 후에 로그인 관련 로직 실행
+            setTimeout(() => {
+                load_playerData(); 
+                startBGM(); 
+                alert('🎶배경음악을 듣기 위해서 소리를 켜주세요.📢');
+            }, 200); 
+        }
+
+        // 회원가입 클릭 처리 함수
+        function handleSignupClick() {
+            playClickSound(); // 먼저 소리를 재생
+            
+            // 200ms(0.2초) 후에 회원가입 관련 로직 실행
+            setTimeout(() => {
+                load_game_signup(); 
+                startBGM(); 
+                alert('🎶배경음악을 듣기 위해서 소리를 켜주세요.📢');
+            }, 200);
+        }
+
+        // ============================================================
+
+        // 배경음악 재생 신호를 부모 창으로 보냅니다.
+        function startBGM() {
+            window.parent.postMessage('play_bgm', '*');
+        }
+
+        function preventGoBack() {
+            history.pushState(null, null, location.href);
+            alert("뒤로 갈 수 없습니다.");
+        }
+
         window.onload = function() {
             history.pushState(null, null, location.href);
-            
-            // popstate 이벤트를 감지하여 뒤로가기 버튼 클릭 시 preventGoBack 함수 실행
             window.addEventListener('popstate', preventGoBack);
         };
     </script>
 </body>
-
 </html>
