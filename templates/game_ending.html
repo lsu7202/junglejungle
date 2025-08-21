@@ -82,16 +82,15 @@
             position: relative;
             padding-bottom: 56.25%;
             background: #000;
-            /* 배경을 더 어둡게 변경 */
             border: 5px solid #222;
             box-shadow: 0 0 50px rgba(255, 255, 255, 0.1);
             overflow: hidden;
-            /* 이 부분이 중요합니다 */
         }
 
         .ending-credits {
             position: absolute;
-            top: 0;
+            top: 30%;
+            /* 이 부분을 수정: 화면 아래에서 시작 */
             left: 0;
             width: 100%;
             display: flex;
@@ -99,21 +98,21 @@
             text-align: center;
             padding: 20px;
             box-sizing: border-box;
-            animation: scrollCredits 60s linear infinite;
-            /* infinite 추가 */
+            animation: scrollCredits 50s linear infinite;
         }
 
         @keyframes scrollCredits {
             0% {
-                /* 화면 아래쪽에서 시작 */
-                transform: translateY(100%);
+                transform: translateY(0%);
+                /* 시작 위치를 0%로 변경 */
             }
 
             100% {
-                /* 화면 위로 완전히 사라지도록 변경 */
-                transform: translateY(-120%);
+                transform: translateY(-110%);
+                /* 크레딧 내용 길이에 따라 조절 */
             }
         }
+
 
         /* [추가] 엔딩 크레딧 텍스트 스타일 */
         .ending-credits h4,
@@ -332,8 +331,8 @@
         </div>
         <div class="comment-box">
             <h2></h2>
-            <textarea id="save-review-box" placeholder="Share your experience with us." rows="5"></textarea>
-            <button class="submit-button" onclick="save_review()">register</button>
+            <textarea id="save-review-box" placeholder="당신의 실패 요인이 무엇이라 생각하시나요? 다른 플레이어들과 공유해주세요." rows="5"></textarea>
+            <button class="submit-button" onclick="save_review()">공유하기</button>
         </div>
 
         <div class="contents">

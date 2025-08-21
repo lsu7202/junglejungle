@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>강지수와 나의 이름 궁합 (100점 만점)</title>
+
+    <style>
+        /* 페이지 전체 스타일 */
+        body {
+            /* 배경 이미지를 사용자가 지정한 로컬 경로로 설정 */
+            background-image: url('../static/images/img_ed/최종합본/궁합게임.PNG');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed; /* 스크롤 시 배경 고정 */
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            text-align: center;
+            flex-direction: column;
+        }
+
+        /* 핸드폰 프레임 스타일 */
+        .phone-frame {
+            position: relative;
+            width: 375px;
+            height: 667px;
+            border: 10px solid #222;
+            border-radius: 40px;
+            background-color: #000;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            margin: 50px auto;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        /* 휴대폰 화면에 마우스를 올리면 프레임이 심장처럼 두근거리는 애니메이션 */
+        .phone-frame:hover {
+            animation: heartbeat 1.5s infinite;
+        }
+
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            10% { transform: scale(1.02); }
+            20% { transform: scale(1); }
+            30% { transform: scale(1.02); }
+            40% { transform: scale(1); }
+            50% { transform: scale(1); }
+            60% { transform: scale(1.02); }
+            70% { transform: scale(1); }
+            80% { transform: scale(1); }
+            90% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        .phone-top-bar {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 25px;
+            background: #222;
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .phone-speaker {
+            width: 50px;
+            height: 5px;
+            background-color: #444;
+            border-radius: 5px;
+        }
+
+        .phone-camera {
+            width: 10px;
+            height: 10px;
+            background-color: #444;
+            border-radius: 50%;
+        }
+
+        .phone-bottom-bar {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 60px;
+            background-color: transparent;
+            border-top: 3px solid #333;
+            z-index: 10;
+        }
+
+        /* 핸드폰 화면 내부 스타일 */
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            background-color: white;
+            box-sizing: border-box;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        /* 앱 콘텐츠 스타일 */
+        .container {
+            background-color: #fff;
+            padding: 0;
+            border-radius: 10px;
+            width: 100%;
+            max-width: none;
+            box-shadow: none;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        input[type="text"] {
+            width: 80%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        /* 새로 바뀐 버튼 스타일 (공통) */
+        button {
+            padding: 12px 24px;
+            font-size: 18px;
+            border: none;
+            border-radius: 25px;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            background: linear-gradient(45deg, #8A2387, #E94057, #F27121);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            transform: translateY(1px);
+        }
+
+        #result-container {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 2px solid #eee;
+            display: none; /* 초기에는 숨김 */
+        }
+
+        #result-title {
+            color: #28a745;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        #result-score {
+            font-size: 40px;
+            font-weight: bold;
+            color: #007bff;
+            margin: 10px 0;
+        }
+
+        #result-description {
+            font-size: 18px;
+            color: #555;
+            margin-top: 10px;
+            font-style: italic;
+        }
+        
+        /* 새로운 애니메이션 시각화 스타일 */
+        #calculation-animation {
+            margin-top: 30px;
+        }
+        .calculation-line {
+            font-size: 18px;
+            font-weight: bold;
+            color: #555;
+            transition: opacity 0.5s ease-in-out;
+            opacity: 0;
+            margin: 5px 0;
+        }
+        .calculation-line.visible {
+            opacity: 1;
+        }
+
+        /* 뒤로가기 버튼 스타일 */
+        .back-button {
+            all: unset; /* 공통 button 스타일 제거 */
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: #fff;
+            border: 2px solid #ccc;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 20;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.2s ease-in-out;
+        }
+        .back-button svg {
+            width: 24px;
+            height: 24px;
+            color: #333;
+            transition: color 0.2s ease;
+        }
+        .back-button:hover {
+            background-color: #f0f0f0;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        h5 {
+            margin-top: 50px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="phone-frame">
+        <button class="back-button" onclick="goBack()">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" 
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+        </button>
+        <div class="phone-top-bar">
+            <div class="phone-speaker"></div>
+            <div class="phone-camera"></div>
+        </div>
+        <div class="phone-screen">
+            <div class="container">
+                <h5>강지수와 당신의 이름 궁합은?</h5>
+                <p>당신의 이름을 입력해 주세요:</p>
+                <input type="text" id="partner-name" placeholder="이름을 입력하세요" maxlength="10">
+                <button onclick="calculateCompatibility()">궁합 보기</button>
+
+                <div id="calculation-animation"></div>
+
+                <div id="result-container">
+                    <h2 id="result-title"></h2>
+                    <p id="result-score"></p>
+                    <p id="result-description"></p>
+                </div>
+            </div>
+        </div>
+        <div class="phone-bottom-bar"></div>
+    </div>
+
+    <script>
+        const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+        function goBack() {
+            window.history.back();
+        }
+
+        const strokeCount = {
+            'ㄱ': 1, 'ㄴ': 2, 'ㄷ': 3, 'ㄹ': 5, 'ㅁ': 4,
+            'ㅂ': 4, 'ㅅ': 2, 'ㅇ': 1, 'ㅈ': 3, 'ㅊ': 4,
+            'ㅋ': 3, 'ㅌ': 4, 'ㅍ': 5, 'ㅎ': 3,
+            'ㅏ': 2, 'ㅑ': 3, 'ㅓ': 2, 'ㅕ': 3, 'ㅗ': 2,
+            'ㅛ': 3, 'ㅜ': 2, 'ㅠ': 3, 'ㅡ': 1, 'ㅣ': 1,
+            'ㅐ': 3, 'ㅔ': 3, 'ㅒ': 4, 'ㅖ': 4, 'ㅘ': 4,
+            'ㅙ': 6, 'ㅚ': 3, 'ㅝ': 4, 'ㅞ': 6, 'ㅟ': 4, 'ㅢ': 2,
+            'ㄲ': 2, 'ㄸ': 6, 'ㅃ': 8, 'ㅆ': 4, 'ㅉ': 6,
+            'ㄳ': 3, 'ㄵ': 5, 'ㄶ': 5, 'ㄺ': 6, 'ㄻ': 9, 'ㄼ': 9,
+            'ㄽ': 7, 'ㄾ': 9, 'ㄿ': 10, 'ㅀ': 8, 'ㅄ': 6
+        };
+
+        function disassembleKoreanToList(text) {
+            const CHOSUNG = ['ㄱ','ㄲ','ㄴ','ㄷ','ㄸ','ㄹ','ㅁ','ㅂ','ㅃ','ㅅ','ㅆ','ㅇ','ㅈ','ㅉ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ'];
+            const JUNGSUNG = ['ㅏ','ㅐ','ㅑ','ㅒ','ㅓ','ㅔ','ㅕ','ㅖ','ㅗ','ㅘ','ㅙ','ㅚ','ㅛ','ㅜ','ㅝ','ㅞ','ㅟ','ㅠ','ㅡ','ㅢ','ㅣ'];
+            const JONGSUNG = ['','ㄱ','ㄲ','ㄳ','ㄴ','ㄵ','ㄶ','ㄷ','ㄹ','ㄺ','ㄻ','ㄼ','ㄽ','ㄾ','ㄿ','ㅀ','ㅁ','ㅂ','ㅄ','ㅅ','ㅆ','ㅇ','ㅈ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ'];
+
+            const result = [];
+            for (const char of text) {
+                const code = char.charCodeAt(0);
+                if (code >= 0xAC00 && code <= 0xD7A3) {
+                    const relativeCode = code - 0xAC00;
+                    const chosungIndex = Math.floor(relativeCode / 588);
+                    const jungsungIndex = Math.floor((relativeCode % 588) / 28);
+                    const jongsungIndex = relativeCode % 28;
+
+                    result.push(CHOSUNG[chosungIndex]);
+
+                    const complexJungsungs = {
+                        'ㅘ':['ㅗ','ㅏ'],'ㅙ':['ㅗ','ㅐ'],'ㅚ':['ㅗ','ㅣ'],
+                        'ㅝ':['ㅜ','ㅓ'],'ㅞ':['ㅜ','ㅔ'],'ㅟ':['ㅜ','ㅣ'],'ㅢ':['ㅡ','ㅣ']
+                    };
+                    const jungsungChar = JUNGSUNG[jungsungIndex];
+                    if (complexJungsungs[jungsungChar]) {
+                        result.push(...complexJungsungs[jungsungChar]);
+                    } else {
+                        result.push(jungsungChar);
+                    }
+
+                    if (jongsungIndex > 0) result.push(JONGSUNG[jongsungIndex]);
+                } else {
+                    result.push(char);
+                }
+            }
+            return result;
+        }
+
+        function getNameStrokes(name) {
+            const disassembled = disassembleKoreanToList(name);
+            return disassembled.map(ch => strokeCount[ch] ?? 0);
+        }
+
+        async function calculateCompatibility() {
+            const myName = "강지수";
+            const partnerName = document.getElementById('partner-name').value;
+            const animationContainer = document.getElementById('calculation-animation');
+            const resultContainer = document.getElementById('result-container');
+
+            if (!partnerName.trim()) {
+                document.getElementById('result-title').textContent = "이름을 입력해주세요.";
+                document.getElementById('result-score').textContent = "";
+                document.getElementById('result-description').textContent = "";
+                resultContainer.style.display = 'block';
+                animationContainer.innerHTML = '';
+                return;
+            }
+
+            resultContainer.style.display = 'none';
+            animationContainer.innerHTML = '';
+
+            const myStrokes = getNameStrokes(myName);
+            const partnerStrokes = getNameStrokes(partnerName);
+            let combinedStrokes = [];
+            const maxLength = Math.max(myStrokes.length, partnerStrokes.length);
+
+            for (let i = 0; i < maxLength; i++) {
+                if (i < myStrokes.length) combinedStrokes.push(myStrokes[i]);
+                if (i < partnerStrokes.length) combinedStrokes.push(partnerStrokes[i]);
+            }
+
+            let currentNumbers = [...combinedStrokes];
+            let animationLines = [];
+            animationLines.push(currentNumbers.join(' '));
+
+            while (currentNumbers.length > 2) {
+                const nextNumbers = [];
+                for (let i = 0; i < currentNumbers.length - 1; i++) {
+                    nextNumbers.push((currentNumbers[i] + currentNumbers[i+1]) % 10);
+                }
+                currentNumbers = nextNumbers;
+                animationLines.push(currentNumbers.join(' '));
+            }
+
+            for (const line of animationLines) {
+                const lineElement = document.createElement('div');
+                lineElement.className = 'calculation-line';
+                lineElement.textContent = line;
+                animationContainer.appendChild(lineElement);
+                await sleep(500);
+                lineElement.classList.add('visible');
+            }
+
+            const finalScore = currentNumbers[0] * 10 + currentNumbers[1];
+            await sleep(1000);
+
+            let description = '';
+            if (finalScore >= 90) description = '환상의 궁합! 천생연분이에요! 🎉';
+            else if (finalScore >= 70) description = '좋은 관계를 유지할 수 있어요. 🤝';
+            else if (finalScore >= 50) description = '서로에게 조금 더 노력하면 더 좋은 관계가 될 거예요. 😊';
+            else description = '서로 다른 매력을 가진 관계네요. 서로를 이해하려 노력하면 좋아요. 😌';
+
+            document.getElementById('result-title').textContent = `${myName}와 ${partnerName}의 궁합 결과`;
+            document.getElementById('result-score').textContent = `${finalScore}점`;
+            document.getElementById('result-description').textContent = description;
+            resultContainer.style.display = 'block';
+        }
+    </script>
+</body>
+</html>

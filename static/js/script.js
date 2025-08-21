@@ -120,6 +120,7 @@ for (const button of selectButton) {
         });
     });
 }
+
 // ---------------------------------[1] 페이지 로딩 로직--------------------------------//
 // ------------------------------------------------------------------------------------//
 
@@ -373,9 +374,9 @@ function toggle_replies(buttonElement) {
     repliesContainer.slideToggle();
 
     if (repliesContainer.is(':visible')) {
-        $button.text(`답글 숨기기 (${$button.data('count')})`);
+        $button.text(`답글 (${$button.data('count')})`);
     } else {
-        $button.text(`답글 보기 (${$button.data('count')})`);
+        $button.text(`답글 (${$button.data('count')})`);
     }
 }
 

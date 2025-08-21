@@ -3,27 +3,35 @@
 /* 기본 Body 스타일 */
 body {
     /* 사용자의 배경 이미지는 그대로 유지됩니다 */
-    background-size: cover; /* 배경이 페이지 전체를 덮도록 설정 */
-    background-position: center; /* 배경 이미지를 중앙에 위치 */
-    background-repeat: no-repeat; /* 배경 이미지가 반복되지 않도록 설정 */
-    font-family: 'Noto Sans KR', sans-serif; /* 게임에서 자주 사용하는 깔끔하고 현대적인 글꼴 */
+    background-size: cover;
+    /* 배경이 페이지 전체를 덮도록 설정 */
+    background-position: center;
+    /* 배경 이미지를 중앙에 위치 */
+    background-repeat: no-repeat;
+    /* 배경 이미지가 반복되지 않도록 설정 */
+    font-family: 'Noto Sans KR', sans-serif;
+    /* 게임에서 자주 사용하는 깔끔하고 현대적인 글꼴 */
     margin: 0;
     padding: 0;
     height: 100vh;
-    overflow: hidden; /* 스크롤바가 생기지 않도록 방지 */
+    overflow: hidden;
+    /* 스크롤바가 생기지 않도록 방지 */
     background-size: contain;
 }
 
 /* 캐릭터 박스 스타일 (예: 캐릭터 이름 표시용) */
 .character-box {
     position: absolute;
-    top: 15%; /* 화면 상단 1/3 지점에 위치 */
+    top: 15%;
+    /* 화면 상단 1/3 지점에 위치 */
     left: 50%;
     transform: translateX(-50%);
-    background-color: rgba(0, 0, 0, 0.6); /* 반투명 검은색 */
+    background-color: rgba(0, 0, 0, 0.6);
+    /* 반투명 검은색 */
     color: white;
     padding: 10px 25px;
-    border-radius: 25px; /* 부드러운 둥근 모서리 */
+    border-radius: 25px;
+    /* 부드러운 둥근 모서리 */
     font-size: 20px;
     font-weight: bold;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -39,13 +47,18 @@ body {
 
 /* 텍스트(대사) 영역 */
 .text-area {
-    height: 60%; /* interaction-box 높이의 60%를 차지합니다. */
+    height: 60%;
+    /* interaction-box 높이의 60%를 차지합니다. */
     width: 100%;
     display: flex;
-    flex-direction: column; /* 내부 요소(대사, 입력창)를 세로로 정렬 */
-    justify-content: center; /* 세로 중앙 정렬 */
-    align-items: center; /* 가로 중앙 정렬 */
-    padding-bottom: 20px; /* 선택지 박스와의 간격 증가 */
+    flex-direction: column;
+    /* 내부 요소(대사, 입력창)를 세로로 정렬 */
+    justify-content: center;
+    /* 세로 중앙 정렬 */
+    align-items: center;
+    /* 가로 중앙 정렬 */
+    padding-bottom: 20px;
+    /* 선택지 박스와의 간격 증가 */
     box-sizing: border-box;
 }
 
@@ -55,32 +68,41 @@ body {
 .input-area {
     width: 100%;
     text-align: center;
-    margin-top: 15px; /* 대사와의 간격 추가 */
+    margin-top: 15px;
+    /* 대사와의 간격 추가 */
 }
 
 /* 기본 Body 스타일 */
 body {
     /* 사용자의 배경 이미지는 그대로 유지됩니다 */
-    background-size: cover; /* 배경이 페이지 전체를 덮도록 설정 */
-    background-position: center; /* 배경 이미지를 중앙에 위치 */
-    background-repeat: no-repeat; /* 배경 이미지가 반복되지 않도록 설정 */
-    font-family: 'Noto Sans KR', sans-serif; /* 게임에서 자주 사용하는 깔끔하고 현대적인 글꼴 */
+    background-size: cover;
+    /* 배경이 페이지 전체를 덮도록 설정 */
+    background-position: center;
+    /* 배경 이미지를 중앙에 위치 */
+    background-repeat: no-repeat;
+    /* 배경 이미지가 반복되지 않도록 설정 */
+    font-family: 'Noto Sans KR', sans-serif;
+    /* 게임에서 자주 사용하는 깔끔하고 현대적인 글꼴 */
     margin: 0;
     padding: 0;
     height: 100vh;
-    overflow: hidden; /* 스크롤바가 생기지 않도록 방지 */
+    overflow: hidden;
+    /* 스크롤바가 생기지 않도록 방지 */
 }
 
 /* 캐릭터 박스 스타일 (예: 캐릭터 이름 표시용) */
 .character-box {
     position: absolute;
-    top: 15%; /* 화면 상단 1/3 지점에 위치 */
+    top: 15%;
+    /* 화면 상단 1/3 지점에 위치 */
     left: 50%;
     transform: translateX(-50%);
-    background-color: rgba(0, 0, 0, 0.6); /* 반투명 검은색 */
+    background-color: rgba(0, 0, 0, 0.6);
+    /* 반투명 검은색 */
     color: white;
     padding: 10px 25px;
-    border-radius: 25px; /* 부드러운 둥근 모서리 */
+    border-radius: 25px;
+    /* 부드러운 둥근 모서리 */
     font-size: 20px;
     font-weight: bold;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -90,41 +112,79 @@ body {
 /* 메인 상호작용 박스 스타일 */
 .interaction-box {
     position: fixed;
-    bottom: 2%; /* 화면 하단에 약간의 여백을 줍니다. */
+    bottom: 2%;
+    /* 화면 하단에 약간의 여백을 줍니다. */
     left: 50%;
     transform: translateX(-50%);
-    height: 28vh; /* 화면 높이에 맞춰 유연하게 조절됩니다. */
-    min-height: 180px; /* 최소 높이를 지정해 내용이 잘리지 않도록 합니다. */
+    height: 28vh;
+    /* 화면 높이에 맞춰 유연하게 조절됩니다. */
+    min-height: 180px;
+    /* 최소 높이를 지정해 내용이 잘리지 않도록 합니다. */
     width: 90%;
-    max-width: 900px; /* 큰 화면에서 너무 넓어지지 않도록 제한합니다. */
-    
-    background-color: rgba(0, 0, 0, 0.65); /* 가독성을 위해 배경을 조금 더 어둡게 조정 */
+    max-width: 900px;
+    /* 큰 화면에서 너무 넓어지지 않도록 제한합니다. */
+
+    background-color: rgba(0, 0, 0, 0.65);
+    /* 가독성을 위해 배경을 조금 더 어둡게 조정 */
     border-radius: 15px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-    
-    display: flex; /* Flexbox 레이아웃을 사용합니다. */
-    flex-direction: column; /* 자식 요소들을 세로로 정렬합니다. */
+
+    display: flex;
+    /* Flexbox 레이아웃을 사용합니다. */
+    flex-direction: column;
+    /* 자식 요소들을 세로로 정렬합니다. */
     padding: 20px;
-    box-sizing: border-box; /* 패딩과 테두리를 전체 크기에 포함시킵니다. */
+    box-sizing: border-box;
+    /* 패딩과 테두리를 전체 크기에 포함시킵니다. */
 }
 
 /* 쿵쾅거리는 애니메이션 키프레임 정의 */
 @keyframes heart-beat {
-    0% { transform: translateX(-50%) scale(0.98); }
-    50% { transform: translateX(-50%) scale(1.02); }
-    100% { transform: translateX(-50%) scale(0.98); }
+    0% {
+        transform: translateX(-50%) scale(0.98);
+    }
+
+    50% {
+        transform: translateX(-50%) scale(1.02);
+    }
+
+    100% {
+        transform: translateX(-50%) scale(0.98);
+    }
+}
+
+/* 쿵쾅거리는 애니메이션 키프레임 정의 (수정) */
+@keyframes heart-beat-effect {
+    0% {
+        transform: scale(1); /* 원래 크기 */
+    }
+    50% {
+        transform: scale(1.05); /* 5% 커짐 */
+    }
+    100% {
+        transform: scale(1); /* 원래 크기로 복귀 */
+    }
 }
 
 /* 마우스를 올렸을 때 애니메이션 */
 .interaction-box:hover {
-    animation: heart-beat-hover 0.5s infinite; /* 더 빠르고 큰 애니메이션 적용 */
+    animation: heart-beat-hover 0.5s infinite;
+    /* 더 빠르고 큰 애니메이션 적용 */
 }
 
 /* 마우스를 올렸을 때 애니메이션 키프레임 정의 */
 @keyframes heart-beat-hover {
-    0% { transform: translateX(-50%) scale(1); }
-    50% { transform: translateX(-50%) scale(1.03); }
-    100% { transform: translateX(-50%) scale(1); }
+    0% {
+        transform: translateX(-50%) scale(1);
+    }
+
+    50% {
+        transform: translateX(-50%) scale(1.03);
+    }
+
+    100% {
+        transform: translateX(-50%) scale(1);
+    }
 }
 
 
@@ -133,39 +193,51 @@ body {
     margin-left: auto; /* 이 속성이 요소를 오른쪽 끝으로 밀어냅니다. */
 
 .continue-btn-area {
-    margin-left: auto; /* 이 속성이 요소를 오른쪽 끝으로 밀어냅니다. */
-    display: flex; /* 내부 요소(버튼, 텍스트) 정렬을 위해 flex 사용 */
-    flex-direction: column; /* 버튼과 텍스트를 세로로 정렬 */
-    align-items: flex-end; /* 오른쪽 정렬을 유지 */
+    margin-left: auto;
+    /* 이 속성이 요소를 오른쪽 끝으로 밀어냅니다. */
+    display: flex;
+    /* 내부 요소(버튼, 텍스트) 정렬을 위해 flex 사용 */
+    flex-direction: column;
+    /* 버튼과 텍스트를 세로로 정렬 */
+    align-items: flex-end;
+    /* 오른쪽 정렬을 유지 */
 }
 
 /* 대화 텍스트 스타일 */
 .line {
     font-size: 24px;
-    color: #fff; 
-    margin-bottom: 15px; /* 이름 입력창과의 간격 */
+    color: #fff;
+    margin-bottom: 15px;
+    /* 이름 입력창과의 간격 */
     text-align: center;
 }
 
 /* 이름 입력창 스타일 */
 #playerName {
-    font-family: 'Noto Sans KR', sans-serif; /* 글꼴 일관성 유지 */
+    font-family: 'Noto Sans KR', sans-serif;
+    /* 글꼴 일관성 유지 */
     font-size: 22px;
     color: #fff;
-    background-color: transparent; /* 배경 투명 */
-    border: none; /* 테두리 제거 */
-    border-bottom: 2px solid rgba(255, 255, 255, 0.7); /* 밑줄 스타일 */
-    
+    background-color: transparent;
+    /* 배경 투명 */
+    border: none;
+    /* 테두리 제거 */
+    border-bottom: 2px solid rgba(255, 255, 255, 0.7);
+    /* 밑줄 스타일 */
+
     padding: 5px 10px;
     width: 250px;
     text-align: center;
-    outline: none; /* 클릭 시 브라우저 기본 외곽선 제거 */
-    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* 부드러운 전환 효과 */
+    outline: none;
+    /* 클릭 시 브라우저 기본 외곽선 제거 */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    /* 부드러운 전환 효과 */
 }
 
 /* 이름 입력창 포커스 효과 */
 #playerName:focus {
-    border-bottom-color: #fff; /* 포커스 시 밑줄을 더 선명하게 */
+    border-bottom-color: #fff;
+    /* 포커스 시 밑줄을 더 선명하게 */
     box-shadow: 0 2px 10px rgba(255, 255, 255, 0.2);
 }
 
@@ -187,28 +259,38 @@ body {
     background-color: #4a4a80;
     transform: translateY(-2px);
 }
+
 .regret-notice {
-    font-size: 0.8rem; /* 작은 글씨 크기 */
-    font-style: italic; /* 이탤릭체 */
-    color: rgba(255, 255, 255, 0.7); /* 약간 투명한 흰색 */
-    margin-top: 4px; /* 버튼과의 간격 */
+    font-size: 0.8rem;
+    /* 작은 글씨 크기 */
+    font-style: italic;
+    /* 이탤릭체 */
+    color: rgba(255, 255, 255, 0.7);
+    /* 약간 투명한 흰색 */
+    margin-top: 4px;
+    /* 버튼과의 간격 */
 }
+
 /* 캐릭터 추가하기 */
 .normal_people {
-  width: 200px;         /* 이미지 너비 조절 */
-  height: px;         /* 비율 유지하면서 높이 자동 조절 */
-  margin-left: -30px;   /* 왼쪽으로 이동 */
+    width: 200px;
+    /* 이미지 너비 조절 */
+    height: px;
+    /* 비율 유지하면서 높이 자동 조절 */
+    margin-left: -30px;
+    /* 왼쪽으로 이동 */
 }
 
 /* 마우스를 올렸을 때 */
 .normal_people:hover {
-  transform: scale(1.5) translateY(-10px) translateX(5px);
+    transform: scale(1.5) translateY(-10px) translateX(5px);
 }
+
 .choice-box {
     /* 이 부분은 삭제하지 말고 유지해야 합니다. */
-    height: 40%; 
+    height: 40%;
     width: 100%;
-    
+
     /* 이 두 속성이 선택지를 아래로 내리는 핵심입니다. */
     /*display: flex; 
     flex-direction: column; 
@@ -221,68 +303,205 @@ body {
 
 .choice-btn-area {
     display: flex;
-    flex-direction: column; /* 세로 정렬 */
-    gap: 15px; /* 버튼 사이 간격 */
-   
+    flex-direction: column;
+    /* 세로 정렬 */
+    gap: 15px;
+    /* 버튼 사이 간격 */
+
     /* 이 속성은 필요 없으면 제거해도 됩니다. */
-   /
+    /
 }
+
 .choice-btn {
-    width: 600px; /* 버튼의 너비를 200px로 고정 */
-    height: 35px; /* 버튼의 높이를 50px로 고정 */
-  
-    background-color: #333; /* 어두운 회색 배경 */
-    color: #fff; /* 흰색 글자색 */
-    border: 1px solid #555; /* 약간 더 밝은 테두리 */
-    border-radius: 8px; /* 둥근 모서리 */
+    width: 600px;
+    /* 버튼의 너비를 200px로 고정 */
+    height: 35px;
+    /* 버튼의 높이를 50px로 고정 */
+
+    background-color: #333;
+    /* 어두운 회색 배경 */
+    color: #fff;
+    /* 흰색 글자색 */
+    border: 1px solid #555;
+    /* 약간 더 밝은 테두리 */
+    border-radius: 8px;
+    /* 둥근 모서리 */
     padding: 8px 12px;
     font-size: 1em;
     cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s; /* 호버 효과를 위한 전환 */
-    text-align: left; /* 텍스트를 왼쪽으로 정렬 */
+    transition: background-color 0.3s, transform 0.2s;
+    /* 호버 효과를 위한 전환 */
+    text-align: left;
+    /* 텍스트를 왼쪽으로 정렬 */
 }
+
 .choice-btn:hover {
-    background-color: #555; /* 호버 시 배경색 변경 */
-    transform: translateY(-2px); /* 약간 위로 올라오는 효과 */
+    background-color: #555;
+    /* 호버 시 배경색 변경 */
+    transform: translateY(-2px);
+    /* 약간 위로 올라오는 효과 */
 }
 
 /* 클릭 시 효과 */
 .choice-btn:active {
-    background-color: #222; /* 클릭 시 더 어두운 색으로 변경 */
+    background-color: #222;
+    /* 클릭 시 더 어두운 색으로 변경 */
     transform: translateY(0);
 }
 
 
 .continue-area {
     display: flex;
-    flex-direction: column; /* 세로 정렬 */
-    gap: 15px; /* 버튼 사이 간격 */
-   
+    flex-direction: column;
+    /* 세로 정렬 */
+    gap: 15px;
+    /* 버튼 사이 간격 */
+
     /* 이 속성은 필요 없으면 제거해도 됩니다. */
-   /
+    /
 }
+
 .continue-btn {
-    width: 600px; /* 버튼의 너비를 200px로 고정 */
-    height: 35px; /* 버튼의 높이를 50px로 고정 */
-  
-    background-color: #333; /* 어두운 회색 배경 */
-    color: #fff; /* 흰색 글자색 */
-    border: 1px solid #555; /* 약간 더 밝은 테두리 */
-    border-radius: 8px; /* 둥근 모서리 */
+    width: 600px;
+    /* 버튼의 너비를 200px로 고정 */
+    height: 35px;
+    /* 버튼의 높이를 50px로 고정 */
+
+    background-color: #333;
+    /* 어두운 회색 배경 */
+    color: #fff;
+    /* 흰색 글자색 */
+    border: 1px solid #555;
+    /* 약간 더 밝은 테두리 */
+    border-radius: 8px;
+    /* 둥근 모서리 */
     padding: 8px 12px;
     font-size: 1em;
     cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s; /* 호버 효과를 위한 전환 */
-    text-align: left; /* 텍스트를 왼쪽으로 정렬 */
+    transition: background-color 0.3s, transform 0.2s;
+    /* 호버 효과를 위한 전환 */
+    text-align: left;
+    /* 텍스트를 왼쪽으로 정렬 */
 }
+
 .continue-btn:hover {
-    background-color: #555; /* 호버 시 배경색 변경 */
-    transform: translateY(-2px); /* 약간 위로 올라오는 효과 */
+    background-color: #555;
+    /* 호버 시 배경색 변경 */
+    transform: translateY(-2px);
+    /* 약간 위로 올라오는 효과 */
 }
 
 /* 클릭 시 효과 */
 .continue-btn:active {
-    background-color: #222; /* 클릭 시 더 어두운 색으로 변경 */
+    background-color: #222;
+    /* 클릭 시 더 어두운 색으로 변경 */
     transform: translateY(0);
 }
 
+/* 스마트폰 박스를 화면 왼쪽 상단에 위치시킵니다. */
+.smartphone-box {
+    position: absolute;
+    top: 20px;
+    /* 화면 상단에서 20px 아래 */
+    left: 20px;
+    /* 화면 왼쪽에서 20px 오른쪽 */
+    z-index: 10;
+    /* 다른 요소들보다 위에 표시되도록 설정 */
+}
+
+
+/* 스마트폰의 기본 형태와 배경 이미지가 들어갈 영역입니다. */
+.smartphone {
+    position: relative;
+    /* 내부에 있는 버튼들의 위치 기준점이 됩니다. */
+    width: 220px;
+    /* 스마트폰의 가로 크기 (예시) */
+    height: 445px;
+    /* 스마트폰의 세로 크기 (예시) */
+    /* 아래 주석 처리된 곳에 배경 이미지 경로를 넣으세요 */
+    background-image: url("../images/img_ed/최종합본/iphone.png");
+    background-color: #ddd;
+    /* 이미지가 없을 때를 위한 임시 배경색 */
+    background-size: cover;
+    border-radius: 25px;
+    /* 스마트폰처럼 모서리를 둥글게 */
+    border: 3px solid black;
+
+    animation: heart-beat-effect 1.5s ease-in-out infinite;
+}
+
+/* 스마트폰 안의 버튼들을 앱 아이콘처럼 만듭니다. (공통 스타일) */
+.smartphone .game-btn_1,
+.smartphone .game-btn_2 {
+    width: 50px;
+    /* 정사각형의 작은 크기 (가로) */
+    height: 50px;
+    /* 정사각형의 작은 크기 (세로) */
+    border-radius: 12px;
+    /* 앱 아이콘처럼 모서리를 둥글게 */
+    border: none;
+    /* 기본 테두리 제거 */
+    cursor: pointer;
+    /* 마우스를 올리면 클릭 가능 표시 */
+    position: absolute;
+    /* .smartphone 영역 안에서 자유롭게 위치 지정 */
+    background-color: rgba(255, 255, 255, 0.8);
+    /* 아이콘 배경색 (예시) */
+}
+
+/* 첫 번째 버튼의 위치 */
+.smartphone .game-btn_1 {
+    background-image: url('../images/img_ed/최종합본/game1.png');
+    top: 70px;
+    left: 30px;
+}
+
+/* 두 번째 버튼의 위치 */
+.smartphone .game-btn_2 {
+    background-image: url('../images/img_ed/최종합본/game2.png');
+    top: 70px;
+    left: 100px;
+    /* 첫 번째 버튼 옆으로 위치 조정 */
+}
+
+.smartphone_kakao-box {
+    position: absolute;
+    top: 20px; /* 화면 상단에서 20px 아래 */
+    left: 50%; /* 화면 왼쪽에서 50% 지점 */
+    transform: translateX(-50%); /* 자신의 너비의 50%만큼 왼쪽으로 이동하여 중앙 정렬 */
+    z-index: 10; /* 다른 요소들보다 위에 표시 */
+}
+
+
+/* 스마트폰 안의 버튼들을 앱 아이콘처럼 만듭니다. (공통 스타일) */
+.smartphone_kakao .kakao-btn {
+    width: 50px;
+    /* 정사각형의 작은 크기 (가로) */
+    height: 50px;
+    /* 정사각형의 작은 크기 (세로) */
+    border-radius: 12px;
+    /* 앱 아이콘처럼 모서리를 둥글게 */
+    border: none;
+    /* 기본 테두리 제거 */
+    cursor: pointer;
+    /* 마우스를 올리면 클릭 가능 표시 */
+    position: absolute;
+    /* .smartphone 영역 안에서 자유롭게 위치 지정 */
+    background-color: rgba(255, 255, 255, 0.8);
+    /* 아이콘 배경색 (예시) */
+}
+
+/* 첫 번째 버튼의 위치 */
+.smartphone_kakao .kakao-btn {
+    background-image: url('../images/img_ed/최종합본/kakao.png');
+    top: 70px;
+    left: 30px;
+}
+
+/* [추가됨] 모든 버튼(아이콘)에 마우스를 올렸을 때 효과 */
+.game-btn_1:hover,
+.game-btn_2:hover,
+.kakao-btn:hover {
+    transform: scale(1.1) translateY(-3px); /* 아이콘이 살짝 커지면서 위로 이동 */
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.4); /* 그림자를 더 강조 */
+}

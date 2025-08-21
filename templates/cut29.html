@@ -12,7 +12,27 @@
         body {
             background-image: url("../static/images/img_ed/최종합본/z.png");
         }
+
+        /* 스마트폰의 기본 형태와 배경 이미지가 들어갈 영역입니다. */
+        .smartphone_kakao {
+            position: relative;
+            /* 내부에 있는 버튼들의 위치 기준점이 됩니다. */
+            width: 250px;
+            /* 스마트폰의 가로 크기 (예시) */
+            height: 500px;
+            /* 스마트폰의 세로 크기 (예시) */
+            /* 아래 주석 처리된 곳에 배경 이미지 경로를 넣으세요 */
+            background-image: url("../static/images/img_ed/최종합본/iphone.png");
+            background-color: #ddd;
+            /* 이미지가 없을 때를 위한 임시 배경색 */
+            background-size: cover;
+            border-radius: 25px;
+            /* 스마트폰처럼 모서리를 둥글게 */
+            border: 3px solid black;
+        }
     </style>
+
+
 
     <!--CSS 불러오기 코드-->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main_style.css') }}">
@@ -21,20 +41,25 @@
 </head>
 
 <body>
+    <div class="smartphone_kakao-box">
+        <div class="smartphone_kakao">
+            <button class="kakao-btn" onclick="playSoundAndExecute(() => load_game_new(30))"></button>
+        </div>
+    </div>
     <!--상호작용 박스-->
     <div class="interaction-box">
-        <div class="line">집으로 돌아왔다.</div> 
+        <div class="line">집으로 돌아왔다. 카카오톡을 켜십시오.</div>
         <div class="choice-box">
             <div class="choice-btn-area">
-                <button class="continue-btn" onclick="playSoundAndExecute(() => load_game_new(30))">카카오톡 켜기</button>
             </div>
             <div class="continue-btn-area">
             </div>
         </div>
     </div>
-        <!--JS 불러오기 코드-->
-        <script src="{{ url_for('static', filename='js/script.js') }}"></script>
-        <audio id="click-sound" src="{{ url_for('static', filename='images/img_ed/최종합본/마우스효과음.mp3') }}" preload="auto"></audio>
+    <!--JS 불러오기 코드-->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <audio id="click-sound" src="{{ url_for('static', filename='images/img_ed/최종합본/마우스효과음.mp3') }}"
+        preload="auto"></audio>
 </body>
 
 </html>

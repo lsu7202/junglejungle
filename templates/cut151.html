@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ENTP와 나의 MBTI 궁합</title>
+
+    <style>
+        /* 페이지 전체 스타일 */
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            text-align: center;
+            flex-direction: column;
+
+            /* 배경 이미지 스타일 */
+            background-image: url('../static/images/img_ed/최종합본/궁합게임.PNG');
+            
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed; /* 스크롤 시 배경 고정 */
+        }
+
+        /* 핸드폰 프레임 스타일 */
+        .phone-frame {
+            position: relative;
+            width: 375px;
+            height: 667px;
+            border: 10px solid #222;
+            border-radius: 40px;
+            background-color: #000;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            margin: 50px auto;
+            overflow: hidden;
+            /* 심장 박동 애니메이션 추가 */
+            transition: transform 0.3s ease-in-out;
+        }
+
+        /* 마우스를 올렸을 때 심장 박동 효과 적용 */
+        .phone-frame:hover {
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+
+        /* 심장 박동 애니메이션 키프레임 */
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+            100% { transform: scale(1); }
+        }
+
+        .phone-top-bar {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 25px;
+            background: #222;
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .phone-speaker {
+            width: 50px;
+            height: 5px;
+            background-color: #444;
+            border-radius: 5px;
+        }
+
+        .phone-camera {
+            width: 10px;
+            height: 10px;
+            background-color: #444;
+            border-radius: 50%;
+        }
+
+        .phone-bottom-bar {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 60px;
+            background-color: transparent;
+            border-top: 3px solid #333;
+            z-index: 10;
+        }
+
+        /* 핸드폰 화면 내부 스타일 */
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            background-color: white;
+            box-sizing: border-box;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        /* 앱 콘텐츠 스타일 */
+        .container {
+            background-color: #fff;
+            padding: 0;
+            border-radius: 10px;
+            width: 100%;
+            max-width: none;
+            box-shadow: none; /* 프레임 내부이므로 그림자 제거 */
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .mbti-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .mbti-box {
+            width: 50px;
+            height: 50px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #aaa;
+            cursor: pointer;
+            transition: border-color 0.3s, color 0.3s, background-color 0.3s;
+        }
+
+        .mbti-box.active {
+            border-color: #007bff;
+            color: #007bff;
+        }
+
+        .mbti-box.selected {
+            background-color: #007bff;
+            color: white;
+            border-color: #0056b3;
+        }
+
+        .options-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .options-container button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            background-color: #f0f0f0;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .options-container button:hover {
+            background-color: #e0e0e0;
+        }
+
+        #show-result-btn {
+            display: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: none;
+            background-color: #28a745;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 20px;
+        }
+
+        #show-result-btn:hover {
+            background-color: #218838;
+        }
+
+        #result-container {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 2px solid #eee;
+        }
+
+        #result-emojis {
+            font-size: 50px;
+            margin-bottom: 10px;
+        }
+
+        #result-title {
+            color: #28a745;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        #result-score {
+            font-size: 18px;
+            color: #666;
+        }
+
+        #result-advice {
+            font-size: 16px;
+            color: #555;
+            margin-top: 15px;
+            font-style: italic;
+        }
+
+        /* 뒤로가기 버튼 스타일 추가 */
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: #fff;
+            border: 2px solid #ccc;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 20;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.2s ease-in-out;
+        }
+        
+        .back-button svg {
+            width: 24px;
+            height: 24px;
+            color: #333;
+            transition: color 0.2s ease;
+        }
+        
+        .back-button:hover {
+            background-color: #f0f0f0;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+        
+        h5 {
+            margin-top: 50px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="phone-frame">
+        <button class="back-button" onclick="goBack()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+        </button>
+        <div class="phone-top-bar">
+            <div class="phone-speaker"></div>
+            <div class="phone-camera"></div>
+        </div>
+        <div class="phone-screen">
+            <div class="container">
+                <h5>지수의 MBTI(ENTP)와 궁합을 보고 조언을 얻으세요</h5>
+                <p>당신의 MBTI를 선택해 주세요:</p>
+                <div class="mbti-container" id="mbti-boxes">
+                    <div class="mbti-box active" onclick="showOptions(0)"></div>
+                    <div class="mbti-box" onclick="showOptions(1)"></div>
+                    <div class="mbti-box" onclick="showOptions(2)"></div>
+                    <div class="mbti-box" onclick="showOptions(3)"></div>
+                </div>
+                <div class="options-container" id="mbti-options">
+                    </div>
+                <button id="show-result-btn" onclick="showResult()">결과 보기</button>
+                <div id="result-container">
+                    <div id="result-emojis" style="display: none;">
+                        <span id="my-mbti-emoji"></span>
+                        <span>🤝</span>
+                        <span id="entp-emoji"></span>
+                    </div>
+                    <h2 id="result-title"></h2>
+                    <p id="result-score"></p>
+                    <p id="result-description"></p>
+                    <p id="result-advice"></p>
+                </div>
+            </div>
+        </div>
+        <div class="phone-bottom-bar"></div>
+    </div>
+    
+    <script>
+        // 뒤로가기 기능을 수행하는 함수
+        function goBack() {
+            window.history.back();
+        }
+
+        const mbtiData = {
+            'ENTJ': {
+                score: 95,
+                description: 'ENTJ는 ENTP와 비전을 공유하며 최고의 궁합을 자랑합니다.',
+                advice: '서로의 아이디어를 적극적으로 지지하고 현실화하는 데 집중하면 관계가 더욱 발전할 것입니다.',
+                emoji: '👑'
+            },
+            'ENFP': {
+                score: 90,
+                description: 'ENFP는 ENTP와 서로에게 영감을 주고 받으며 창의적인 관계를 형성합니다.',
+                advice: '함께 새로운 것을 시도하고 서로의 감정적 교류에 더 귀를 기울여주세요.',
+                emoji: '✨'
+            },
+            'INTP': {
+                score: 85,
+                description: 'INTP는 ENTP와 지적인 호기심을 공유하며 깊은 대화를 나눕니다.',
+                advice: '서로의 논리를 존중하고, 때로는 감정적인 부분도 솔직하게 나누는 노력이 필요합니다.',
+                emoji: '🧠'
+            },
+            'INFJ': {
+                score: 80,
+                description: 'INFJ는 ENTP와 서로의 부족한 점을 보완하며 안정적인 관계를 만들어갑니다.',
+                advice: 'ENTP는 INFJ의 섬세한 감정을 이해하려고 노력하고, INFJ는 ENTP의 자유로운 사고를 존중해주세요.',
+                emoji: '💡'
+            },
+            'ENTP': {
+                score: 100,
+                description: 'ENTP끼리 만나면 최고의 시너지를 발휘합니다!',
+                advice: '서로의 아이디어 충돌을 건강한 토론으로 발전시키고, 관계의 안정성을 유지하는 데 힘써야 합니다.',
+                emoji: '😈'
+            },
+            'INFP': {
+                score: 70,
+                description: 'INFP는 ENTP와 신비로운 매력을 느끼지만, 때로는 서로의 가치관을 이해하기 어려울 수 있습니다.',
+                advice: '서로의 차이를 인정하고, 상대방의 감정적인 부분을 세심하게 배려해주세요.',
+                emoji: '🦄'
+            },
+            'ESTJ': {
+                score: 55,
+                description: 'ESTJ는 ENTP와 실용적인 목표를 공유하지만, 가치관의 차이로 인해 충돌할 수 있습니다.',
+                advice: 'ENTP는 ESTJ의 계획성과 질서를 존중하고, ESTJ는 ENTP의 유연성을 이해하는 노력이 필요합니다.',
+                emoji: '💼'
+            },
+            'ISTP': {
+                score: 50,
+                description: 'ISTP는 ENTP와 서로의 독립성을 존중하지만, 깊은 감정적 교류는 어려울 수 있습니다.',
+                advice: '서로의 관심사를 공유하며 함께 활동하는 시간을 늘리고, 감정을 표현하는 연습을 해보세요.',
+                emoji: '🛠️'
+            },
+            'ISFP': {
+                score: 45,
+                description: 'ISFP는 ENTP와 서로 다른 삶의 방식으로 인해 이해하기 어려울 수 있습니다.',
+                advice: '상대방의 개인적인 공간과 가치를 존중하며, 비판적인 태도는 피하는 것이 좋습니다.',
+                emoji: '🎨'
+            },
+            'ESFP': {
+                score: 40,
+                description: 'ESFP는 ENTP와 흥미로운 경험을 추구하지만, 깊은 관계를 맺기에는 어려움이 있습니다.',
+                advice: '서로의 재미를 찾아 관계를 유지하되, 진지한 대화를 통해 서로를 더 깊이 이해하려 노력해야 합니다.',
+                emoji: '🥳'
+            },
+            'ESTP': {
+                score: 35,
+                description: 'ESTP는 ENTP와 즉흥적인 만남을 즐기지만, 장기적인 관계에는 어려움이 있습니다.',
+                advice: '갈등이 생겼을 때 회피하지 않고 솔직하게 대화하며 서로의 입장을 이해하려 노력해야 합니다.',
+                emoji: '🏄'
+            },
+            'ISFJ': {
+                score: 30,
+                description: 'ISFJ는 ENTP와 서로를 이해하기 어렵고, 갈등이 발생하기 쉽습니다.',
+                advice: 'ENTP는 ISFJ의 안정감을 존중하고, ISFJ는 ENTP의 자유로운 생각을 비난하지 않는 것이 중요합니다.',
+                emoji: '🛡️'
+            },
+            'ISTJ': {
+                score: 25,
+                description: 'ISTJ는 ENTP와 가치관과 사고방식의 큰 차이로 인해 궁합이 좋지 않습니다.',
+                advice: '서로의 강점과 약점을 인정하고, 논리보다는 서로의 감정을 먼저 배려하는 것이 중요합니다.',
+                emoji: '📚'
+            },
+            'ESFJ': {
+                score: 20,
+                description: 'ESFJ는 ENTP와 서로를 이해하기 매우 어려우며, 서로에게 상처를 줄 수 있습니다.',
+                advice: '관계 유지를 위해선 ENTP는 ESFJ의 감정을 존중하고, ESFJ는 ENTP의 비판적 사고를 이해하는 특별한 노력이 필요합니다.',
+                emoji: '💖'
+            },
+            'ENFJ': {
+                score: 75,
+                description: 'ENFJ는 ENTP와 좋은 관계를 형성할 수 있지만, ENFJ의 배려에 ENTP가 보답하는 것이 중요합니다.',
+                advice: 'ENTP는 ENFJ의 감정적 지지에 감사하고, ENFJ는 ENTP의 논리적 분석을 존중하며 균형을 맞춰가세요.',
+                emoji: '🤝'
+            },
+            'INTJ': {
+                score: 88,
+                description: 'INTJ는 ENTP와 논리적인 사고를 공유하며 매우 생산적인 관계를 맺을 수 있습니다.',
+                advice: '서로의 아이디어를 존중하고, 목표 달성을 위해 함께 노력하면 시너지를 극대화할 수 있습니다.',
+                emoji: '♟️'
+            }
+        };
+
+        const mbtiSteps = [
+            { id: 'E/I', options: ['E', 'I'], labels: ['외향형', '내향형'] },
+            { id: 'N/S', options: ['N', 'S'], labels: ['직관형', '감각형'] },
+            { id: 'T/F', options: ['T', 'F'], labels: ['사고형', '감정형'] },
+            { id: 'P/J', options: ['P', 'J'], labels: ['인식형', '판단형'] }
+        ];
+        let myMbti = ["", "", "", ""];
+        let currentStep = 0;
+
+        function showOptions(step) {
+            currentStep = step;
+            const optionsContainer = document.getElementById('mbti-options');
+            optionsContainer.innerHTML = '';
+
+            const mbtiBoxes = document.querySelectorAll('.mbti-box');
+            mbtiBoxes.forEach(box => box.classList.remove('active'));
+            mbtiBoxes[currentStep].classList.add('active');
+
+            const stepData = mbtiSteps[currentStep];
+            stepData.options.forEach((char, index) => {
+                const button = document.createElement('button');
+                button.textContent = `${stepData.labels[index]} (${char})`;
+                button.onclick = () => selectMbti(char);
+                optionsContainer.appendChild(button);
+            });
+        }
+
+        function selectMbti(char) {
+            myMbti[currentStep] = char;
+            const mbtiBoxes = document.querySelectorAll('.mbti-box');
+            mbtiBoxes[currentStep].textContent = char;
+            mbtiBoxes[currentStep].classList.add('selected');
+
+            currentStep++;
+            if (currentStep < mbtiSteps.length) {
+                showOptions(currentStep);
+            } else {
+                document.getElementById('mbti-options').innerHTML = '';
+                document.getElementById('show-result-btn').style.display = 'block';
+                mbtiBoxes.forEach(box => box.classList.remove('active'));
+            }
+        }
+
+        function showResult() {
+            const finalMbti = myMbti.join('');
+            const compatibility = mbtiData[finalMbti];
+
+            // 결과 이모지 표시
+            const resultEmojisDiv = document.getElementById('result-emojis');
+            resultEmojisDiv.style.display = 'flex';
+
+            const myMbtiEmoji = document.getElementById('my-mbti-emoji');
+            const entpEmoji = document.getElementById('entp-emoji');
+
+            // ENTP 이모지는 고정
+            entpEmoji.textContent = mbtiData['ENTP'].emoji;
+
+            if (compatibility) {
+                myMbtiEmoji.textContent = compatibility.emoji;
+
+                const resultTitle = document.getElementById('result-title');
+                const resultScore = document.getElementById('result-score');
+                const resultDescription = document.getElementById('result-description');
+                const resultAdvice = document.getElementById('result-advice');
+
+                resultTitle.textContent = `${finalMbti}와 ENTP의 궁합 결과`;
+                resultScore.textContent = `궁합 점수: ${compatibility.score}점`;
+                resultDescription.textContent = compatibility.description;
+                resultAdvice.textContent = `✨ 조언: ${compatibility.advice}`;
+            } else {
+                myMbtiEmoji.textContent = '❓';
+
+                const resultTitle = document.getElementById('result-title');
+                const resultScore = document.getElementById('result-score');
+                const resultDescription = document.getElementById('result-description');
+                const resultAdvice = document.getElementById('result-advice');
+
+                resultTitle.textContent = `결과를 찾을 수 없습니다.`;
+                resultScore.textContent = ``;
+                resultDescription.textContent = `죄송합니다. 해당 MBTI 조합에 대한 데이터가 없습니다.`;
+                resultAdvice.textContent = ``;
+            }
+        }
+
+        window.onload = () => showOptions(0);
+    </script>
+</body>
+</html>

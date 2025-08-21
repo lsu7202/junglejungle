@@ -12,12 +12,12 @@
         $(document).ready(function () {
             username = load_usernameInSession()
             console.log(username)
-    $('#username_line').html(
-        `
+            $('#username_line').html(
+                `
         <div class="line">강지수 :아~너가 ${username}이구나</div>
         `
-    )
-});
+            )
+        });
     </script>
 
     <style>
@@ -25,6 +25,7 @@
             background-image: url("../static/images/img_ed/최종합본/a.png");
 
         }
+
     </style>
 
     <!--CSS 불러오기 코드-->
@@ -34,19 +35,29 @@
 </head>
 
 <body>
+    <div class="smartphone-box">
+        <div class="smartphone">
+            <button class="game-btn_1" onclick="playSoundAndExecute(() => load_game_new(151))"></button>
+            <button class="game-btn_2" onclick="playSoundAndExecute(() => load_game_new(152))"></button>
+        </div>
+    </div>
     <!--상호작용 박스-->
     <div class="interaction-box">
         <div class="line" id="username_line"></div>
         <div class="choice-box">
             <div class="choice-btn-area">
-                <button class="choice-btn" data-next-cut="2" data-current-cut="1" data-choice-text="강지수 :아~너가 땡떙이구나 : 네.잘부탁드려요">네.잘부탁드려요</button>
-                <button class="choice-btn" data-next-cut="3" data-current-cut="1" data-choice-text="강지수 :아~너가 땡떙이구나 : 풀 묻었어요...뷰티풀~하하">풀 묻었어요...뷰티풀~하하 </button>
-                <button class="choice-btn" data-next-cut="2" data-current-cut="1" data-choice-text="강지수 :아~너가 땡떙이구나 : 대충 고개만 끄덕이기">대충 고개만 끄덕이기</button>
+                <button class="choice-btn" data-next-cut="2" data-current-cut="1"
+                    data-choice-text="강지수 :아~너가 땡떙이구나 : 네.잘부탁드려요">네.잘부탁드려요</button>
+                <button class="choice-btn" data-next-cut="3" data-current-cut="1"
+                    data-choice-text="강지수 :아~너가 땡떙이구나 : 풀 묻었어요...뷰티풀~하하">풀 묻었어요...뷰티풀~하하 </button>
+                <button class="choice-btn" data-next-cut="2" data-current-cut="1"
+                    data-choice-text="강지수 :아~너가 땡떙이구나 : 대충 고개만 끄덕이기">대충 고개만 끄덕이기</button>
 
             </div>
         </div>
     </div>
-    <audio id="click-sound" src="{{ url_for('static', filename='images/img_ed/최종합본/마우스효과음.mp3') }}" preload="auto"></audio>
+    <audio id="click-sound" src="{{ url_for('static', filename='images/img_ed/최종합본/마우스효과음.mp3') }}"
+        preload="auto"></audio>
     <!--JS 불러오기 코드-->
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
